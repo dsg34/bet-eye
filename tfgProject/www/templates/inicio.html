@@ -1,0 +1,18 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo"> Inicio </h1>
+    <ion-list id="contenedorMenus">
+      <ion-item class="menuPrincipal" ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
+        <div>{{playlist.title}}</div>
+        <div class="flaticon"></div>
+      </ion-item>
+    </ion-list>
+    <!--
+    <ion-list>
+    <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
+      {{playlist.title}}
+    </ion-item>
+  </ion-list>
+</ion-content>
+-->
+</ion-view>

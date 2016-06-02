@@ -1,1 +1,28 @@
 /* Empty. Add your own CSS if you like */
+#contenedorMenus{
+  padding-top: 50%!important;
+}
+
+.form input{
+  border: 1px solid;
+  display: block;
+  border-radius: 3px;
+  margin-right: 20px;
+}
+
+.menuPrincipal{
+  text-align: left;
+  border: 2px solid;
+
+  font-size: 150%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  line-height: 100%;
+}
+
+.titulo{
+  padding-top: 30px;
+  text-align: center;
+  margin-top: 200px;
+  margin-bottom: 30px;
+}
