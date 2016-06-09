@@ -1,0 +1,26 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo">Escanear</h1>
+    <button class="button button-full button-assertive" ng-click="tomarFoto()">
+      Escanear Ticket
+    </button>
+    <button class="button button-full button-assertive" ng-click="choosePhoto()">
+      Elegir foto
+    </button>
+    <input id="fichero" type="file"/>
+    <img id="escaner" ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center">
+
+    Brillo
+    <button ng-click="tratarImagen(-10, -1, -1)">-</button><button ng-click="tratarImagen(10, -1, -1)">+</button>
+    Contraste
+    <button ng-click="tratarImagen(-1, -10, -1)">-</button><button ng-click="tratarImagen(-1, 10, -1)">+</button>
+    Exposición
+    <button ng-click="tratarImagen(-1, -1, -10)">-</button><button ng-click="tratarImagen(-1, -1, 10)">+</button>
+    <br />clip
+    <button ng-click="clip(-10)">-</button><button ng-click="clip(10)">+</button>
+
+    <button class="button button-full button-assertive" ng-click="tratarImagen(brillo, contraste, exposicion)">Tratar imagen</button>
+    <button class="button button-full button-assertive" ng-click="capturarTexto()">Leer imagen</button>
+  </ion-content>
+</ion-view>
+

@@ -1,0 +1,27 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo">Editar perfil</h1>
+    <form class="form" ng-submit="actualizarInformacion()">
+      <div class="list">
+        <p class="parrafo">Nuevo email</p>
+        <label class="item item-input">
+          <!--<span class="input-label">Email</span>-->
+          <input type="text" placeholder="Nuevo email" ng-model="loginData.email">
+        </label>
+        <p class="parrafo">Nueva contraseña</p>
+        <label class="item item-input">
+          <!--<span class="input-label">Password</span>-->
+          <input type="password" placeholder="Nueva contraseña" ng-model="loginData.password">
+        </label>
+        <p class="parrafo">Para que los cambios se realicen correctamente, inserta tu antigua actual.</p>
+        <label class="item item-input">
+          <!--<span class="input-label">Repite tu password</span>-->
+          <input type="password" placeholder="Contraseña actual" ng-model="loginData.password2">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Editar información</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>
