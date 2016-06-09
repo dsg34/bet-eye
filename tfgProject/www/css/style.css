@@ -3,11 +3,26 @@
   padding-top: 50%!important;
 }
 
+#escaner{
+  margin: auto;
+  width: 80%;
+}
+
 .form input{
+  display: block;
   border: 1px solid;
   display: block;
   border-radius: 3px;
   margin-right: 20px;
+  width: 50%;
+
+  font-size: 20px;
+  padding: 10px;
+}
+
+.input-label{
+  width: 10%;
+  display: block;
 }
 
 .menuPrincipal{
@@ -18,6 +33,25 @@
   padding-top: 20px;
   padding-bottom: 20px;
   line-height: 100%;
+}
+
+.parrafo{
+  text-align: center;
+  margin: 20px;
+  font-size: 120%;
+}
+
+.recPass{
+  display: block;
+  text-align: center;
+}
+
+.registro{
+  background-color: rgb(255, 73, 58);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  display: inline-block;
 }
 
 .titulo{
