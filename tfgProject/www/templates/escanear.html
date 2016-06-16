@@ -9,18 +9,33 @@
     </button>
     <input id="fichero" type="file"/>
     <img id="escaner" ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center">
-
+    <canvas id="canvasAux" width="500px" height="400px" ng-show="imgURI !== undefined"></canvas>
+    <!--
+    <button ng-click="tratarImagen(brillo, contraste, exposicion)">Cambiar</button>
+    <br />
     Brillo
-    <button ng-click="tratarImagen(-10, -1, -1)">-</button><button ng-click="tratarImagen(10, -1, -1)">+</button>
+    <input type="number" style="border:1px solid" ng-model="brillo" />
+    <br />
     Contraste
-    <button ng-click="tratarImagen(-1, -10, -1)">-</button><button ng-click="tratarImagen(-1, 10, -1)">+</button>
+    <input type="number" style="border:1px solid" ng-model="contraste" />
+    <br />
     Exposición
-    <button ng-click="tratarImagen(-1, -1, -10)">-</button><button ng-click="tratarImagen(-1, -1, 10)">+</button>
-    <br />clip
-    <button ng-click="clip(-10)">-</button><button ng-click="clip(10)">+</button>
-
-    <button class="button button-full button-assertive" ng-click="tratarImagen(brillo, contraste, exposicion)">Tratar imagen</button>
+    <input type="number" style="border:1px solid" ng-model="exposicion" />
+    <br />
+    -->
+    <p>Threshold<input type="number" style="border:1px solid" ng-model="threshold" /></p>
+    <button class="button button-full button-assertive" ng-click="aplicarThreshold(threshold)">Aplicar threshold</button>
+    <button class="button button-full button-assertive" ng-click="reset()">Resetear imagen</button>
     <button class="button button-full button-assertive" ng-click="capturarTexto()">Leer imagen</button>
+    <div class="backgroundPopup" ng-show="mostrarPopup">
+      <div class="popup" ng-show="mostrarPopup">
+        <h2>Líneas del ticket</h2>
+        <p><i ng-click='mostrarAyuda()' class='ayuda fa fa-question-circle'></i></p>
+        <div id="popContenido"></div>
+        <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cancelar</button>
+        <button id="aceptarTicket" class="aceptar" ng-click="tratarDatos()">Aceptar</button>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
 
