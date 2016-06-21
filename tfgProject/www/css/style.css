@@ -138,6 +138,10 @@
   padding: 0 12px;
 }
 
+.popup input[type="text"]:focus, .popup select:focus {
+  border: 3px solid #54c5e6 !important;
+}
+
 .popup select {
   border: 3px solid #646464;
   font-weight: bold;

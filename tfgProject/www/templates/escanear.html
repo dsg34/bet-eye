@@ -1,15 +1,16 @@
 <ion-view>
   <ion-content>
     <h1 class="titulo">Escanear</h1>
-    <button class="button button-full button-assertive" ng-click="tomarFoto()">
+    <button class="button button-full button-assertive" ng-show="mostrando === false" ng-click="tomarFoto()">
       Escanear Ticket
     </button>
-    <button class="button button-full button-assertive" ng-click="choosePhoto()">
+    <button class="button button-full button-assertive" ng-show="mostrando === false" ng-click="choosePhoto()">
       Elegir foto
     </button>
-    <input id="fichero" type="file"/>
-    <img id="escaner" ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center">
-    <canvas id="canvasAux" width="500px" height="400px" ng-show="imgURI !== undefined"></canvas>
+
+    <input id="fichero" ng-show="mostrando === false" type="file"/>
+    <img id="escaner" ng-show="mostrando == true" ng-src="{{imgURI}}" style="text-align: center">
+    <canvas id="canvasAux" width="500px" height="400px" ng-show="mostrando == true"></canvas>
     <!--
     <button ng-click="tratarImagen(brillo, contraste, exposicion)">Cambiar</button>
     <br />
@@ -23,10 +24,11 @@
     <input type="number" style="border:1px solid" ng-model="exposicion" />
     <br />
     -->
-    <p>Threshold<input type="number" style="border:1px solid" ng-model="threshold" /></p>
-    <button class="button button-full button-assertive" ng-click="aplicarThreshold(threshold)">Aplicar threshold</button>
-    <button class="button button-full button-assertive" ng-click="reset()">Resetear imagen</button>
-    <button class="button button-full button-assertive" ng-click="capturarTexto()">Leer imagen</button>
+    <p ng-show="mostrando == true">Threshold<input type="number" style="border:1px solid" ng-model="threshold" /></p>
+    <button class="button button-full button-assertive" ng-show="mostrando == true" ng-click="aplicarThreshold(threshold)">Aplicar threshold</button>
+    <button class="button button-full button-assertive" ng-show="mostrando == true" ng-click="capturarTexto()">Leer imagen</button>
+    <button class="button button-full button-assertive" ng-show="mostrando == true" ng-click="reiniciar()">Reiniciar proceso</button>
+
     <div class="backgroundPopup" ng-show="mostrarPopup">
       <div class="popup" ng-show="mostrarPopup">
         <h2>Líneas del ticket</h2>
@@ -34,6 +36,21 @@
         <div id="popContenido"></div>
         <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cancelar</button>
         <button id="aceptarTicket" class="aceptar" ng-click="tratarDatos()">Aceptar</button>
+      </div>
+    </div>
+
+    <div class="backgroundPopup" ng-show="mostrarPopup2">
+      <div class="popup" ng-show="mostrarPopup2">
+        <h2>Guardar ticket</h2>
+        <div id="popContenido2">
+          <p>Puedes introducir de forma opcional un nombre para el ticket, así como la casa de apuestas en la que lo obtuviste.</p>
+          <p style="font-weight: bold;">Nombre del ticket</p>
+          <input id="nombreTicket" name="nombreTicket" type="text" ng-model="nombreTicket"/>
+          <p style="font-weight: bold;">Casa de apuestas</p>
+          <input id="proveedorTicket" name="proveedorTicket" type="text" ng-model="proveedorTicket"/>
+        </div>
+        <button id="volverTicket" class="cancelar" ng-click="volverATicket()">Volver</button>
+        <button id="guardarTicket" class="aceptar" ng-click="guardarTicket(nombreTicket, proveedorTicket)">Guardar ticket</button>
       </div>
     </div>
   </ion-content>
