@@ -3,7 +3,7 @@
  */
 angular.module('starter.controllers')
 
-  .controller('OcrCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $cordovaCamera, $state, $document) {
+  .controller('OcrCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $cordovaCamera, $state, $document, usSpinnerService) {
     $scope.irA = function(estado){
       $state.transitionTo(estado);
     }
@@ -14,7 +14,6 @@ angular.module('starter.controllers')
     });
 
     $ionicNavBarDelegate.showBackButton(false);
-
 
     //Definimos la función que realiza un threshold sobre la imagen de caman
     Caman.Filter.register("threshold", function (adjust) {
@@ -48,6 +47,7 @@ angular.module('starter.controllers')
 
     $scope.mostrarPopup = false;
     $scope.mostrarPopup2 = false;
+    $scope.mostrarPopup3 = false;
     $scope.elegirImagen = true;
     $scope.mostrarImagen = true;
 
@@ -74,7 +74,7 @@ angular.module('starter.controllers')
          */
         //var imagen = document.getElementById('escaner');
         var imagen = document.getElementById('canvasAux');
-
+        usSpinnerService.spin('spinner');
         Tesseract
           .recognize( imagen, {
             lang: 'spa'} )
@@ -94,6 +94,7 @@ angular.module('starter.controllers')
                   '<option value="evento">Evento</option>' +
                   '<option value="resultado">Resultado</option>' +
                   '<option value="tipo_resultado">Tipo/Resultado</option>' +
+                  '<option value="cuota">Cuota</option>' +
                   '<option value="hora_evento">Fecha/Hora evento</option>' +
                   '<option value="importe">Importe apostado</option>' +
                   '<option value="premio">Premio</option>' +
@@ -103,8 +104,7 @@ angular.module('starter.controllers')
                 numLineas++;
               }
             }
-
-            //texto += '<button id="cancelarTicket" class="cancelar">Cancelar</button><button id="aceptarTicket" class="aceptar">Aceptar</button>'
+            usSpinnerService.stop('spinner');
             $scope.mostrarTexto(texto);
           } );
       }
@@ -118,11 +118,16 @@ angular.module('starter.controllers')
     }
 
     $scope.reset = function(){
-      if($scope.mostrando != true){
+      console.log($scope.mostrando);
+      if(!$scope.$$phase) {
         $scope.$apply(function() {
           $scope.mostrando = true;
         });
+      }else{
+        $scope.mostrando = true;
       }
+
+      console.log($scope.mostrando);
 
       var c = document.getElementById("canvasAux");
       var ctx = c.getContext("2d");
@@ -147,9 +152,11 @@ angular.module('starter.controllers')
     $scope.aplicarThreshold = function(t){
       //$scope.reset();
       $scope.threshold = t;
+      usSpinnerService.spin('spinner');
       Caman("#canvasAux", function () {
         this.revert();
         this.threshold(t).render();
+        usSpinnerService.stop('spinner');
       });
     }
 
@@ -189,7 +196,7 @@ angular.module('starter.controllers')
       };
 
       $cordovaCamera.getPicture(options).then(function (imageData) {
-        $scope.imgURI = "data:image/jpeg;base64," + imageData;
+        document.getElementById("escaner").src = "data:image/jpeg;base64," + imageData;
         $scope.reset();
       }, function (err) {
         console.log(err);
@@ -236,16 +243,18 @@ angular.module('starter.controllers')
         $scope.ticket.nombre = $scope.devuelveFecha();
       }
 
-      if(p=="" || p==null){
+      if(p!="" && p!=null){
         $scope.ticket.proveedor = p;
       }else{
         $scope.ticket.proveedor = "Sin proveedor";
       }
 
+      $scope.ticket.usuario = window.localStorage.getItem('usuario');
 
       var response = $http.post('http://eyebetapi.herokuapp.com/api/tickets/', $scope.ticket);
+      usSpinnerService.spin('spinner');
       response.success(function (data) {
-        console.log(data);
+        usSpinnerService.stop('spinner');
         swal(
           {
             title: "¡Ticket guardado!",
@@ -255,6 +264,8 @@ angular.module('starter.controllers')
             showConfirmButton: false
           }, function(){
             console.log("Se ha cerrado");
+            swal.close();
+            $state.go('app.detalleTicket', {ticketId: data._id});
           }
         );
       });
@@ -262,6 +273,7 @@ angular.module('starter.controllers')
 
     $scope.volverATicket = function(){
       $scope.mostrarPopup2 = false;
+      $scope.mostrarPopup3 = false;
       $scope.mostrarPopup = true;
     }
 
@@ -277,10 +289,9 @@ angular.module('starter.controllers')
       };
 
       $cordovaCamera.getPicture(options).then(function (imageData) {
-        $scope.imgURI = "data:image/jpeg;base64," + imageData;
+        document.getElementById("escaner").src = "data:image/jpeg;base64," + imageData;
         $scope.reset();
       }, function (err) {
-        alert(err);
         // An error occured. Show a message to the user
       });
     }
@@ -356,11 +367,11 @@ angular.module('starter.controllers')
               evento.resultado = eliminarEspacios(array[0]);
             }else if(array.length==2){//Resultado y cuota
               evento.resultado = eliminarEspacios(array[0]);
-              evento.cuota = parseFloat(eliminarEspacios(array[1]).replace(')', '').replace(',', '.'));
+              evento.cuota = parseFloat(tratarDinero(array[1]).replace(')', '').replace(',', '.'));
             }else if(array.length==3){//Tipo de apuesta, resultado y cuota
               evento.tipo = eliminarEspacios(array[0]);
               evento.resultado = eliminarEspacios(array[1]);
-              evento.cuota = parseFloat(eliminarEspacios(array[2]).replace(')', '').replace(',', '.'));
+              evento.cuota = parseFloat(tratarDinero(array[2]).replace(')', '').replace(',', '.'));
             }
             break;
           case "tipo_resultado":
@@ -374,7 +385,7 @@ angular.module('starter.controllers')
             }else if(array.length==3){//Tipo, resultado y cuota
               evento.tipo = eliminarEspacios(array[0]);
               evento.resultado = eliminarEspacios(array[1]);
-              evento.cuota = parseFloat(eliminarEspacios(array[2]).replace(')', '').replace(',', '.'));
+              evento.cuota = parseFloat(tratarDinero(array[2]).replace(')', '').replace(',', '.'));
             }
 
             break;
@@ -395,18 +406,8 @@ angular.module('starter.controllers')
     }
 
     $scope.mostrarAyuda = function(){
-      var explicacion = "<div style='text-align:left;'><span class='spanPrin'>Para que analicemos correctamente el ticket, debes:</span> <br /><br /> " +
-        "<span class='spanSec'><b>-</b>Corregir los errores que se hayan producido</span>" +
-        "<span class='spanSec'><b>-</b>Indicar el tipo de contenido de cada línea de la lista desplegable</span>" +
-        "<span class='spanSec'><b>-</b>Dejar los eventos en el formato <b>Equipo1 - Equipo2</b>. Ej.: Real Madrid-F.C. Barcelona</span>" +
-        "<span class='spanSec'><b>-</b>Dejar sólo los resultados de evento en las líneas que correspondan a estos. Ej.: <b>1X</b> o <b>Empate</b>. En caso de que también se desee analizar la cuota del evento, encerrar entre paréntesis. Ej.: <b>1X (1.80)</b></span>"+
-        "<span class='spanSec'><b>-</b>Si la línea de resultado incluye también tipo de evento (<b>1X2</b>, <b>Marcador exacto</b>, etc) separar del resto de igual forma mediante '@'. Ej.: <b>Marcador exacto @ 2:0 (1.80)</b></span>";
-      swal({
-        title: "Instrucciones",
-        text: explicacion,
-        html: true,
-        allowOutsideClick: true,
-      });
+      $scope.mostrarPopup=false;
+      $scope.mostrarPopup3=true;
     }
 
     function tratarEvento(linea){
@@ -474,6 +475,8 @@ angular.module('starter.controllers')
       }
       return arrayEquipos;
     }
+
+
 
     function tratarDinero(linea){
       var devuelve = linea.replace('€', '');

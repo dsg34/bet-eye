@@ -29,30 +29,46 @@
     <button class="button button-full button-assertive" ng-show="mostrando == true" ng-click="capturarTexto()">Leer imagen</button>
     <button class="button button-full button-assertive" ng-show="mostrando == true" ng-click="reiniciar()">Reiniciar proceso</button>
 
-    <div class="backgroundPopup" ng-show="mostrarPopup">
-      <div class="popup" ng-show="mostrarPopup">
-        <h2>Líneas del ticket</h2>
-        <p><i ng-click='mostrarAyuda()' class='ayuda fa fa-question-circle'></i></p>
-        <div id="popContenido"></div>
-        <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cancelar</button>
-        <button id="aceptarTicket" class="aceptar" ng-click="tratarDatos()">Aceptar</button>
-      </div>
-    </div>
-
-    <div class="backgroundPopup" ng-show="mostrarPopup2">
-      <div class="popup" ng-show="mostrarPopup2">
-        <h2>Guardar ticket</h2>
-        <div id="popContenido2">
-          <p>Puedes introducir de forma opcional un nombre para el ticket, así como la casa de apuestas en la que lo obtuviste.</p>
-          <p style="font-weight: bold;">Nombre del ticket</p>
-          <input id="nombreTicket" name="nombreTicket" type="text" ng-model="nombreTicket"/>
-          <p style="font-weight: bold;">Casa de apuestas</p>
-          <input id="proveedorTicket" name="proveedorTicket" type="text" ng-model="proveedorTicket"/>
-        </div>
-        <button id="volverTicket" class="cancelar" ng-click="volverATicket()">Volver</button>
-        <button id="guardarTicket" class="aceptar" ng-click="guardarTicket(nombreTicket, proveedorTicket)">Guardar ticket</button>
-      </div>
-    </div>
   </ion-content>
 </ion-view>
+<div class="backgroundPopup" ng-show="mostrarPopup">
+  <div class="popup" ng-show="mostrarPopup">
+    <h2>Líneas del ticket</h2>
+    <p><i ng-click='mostrarAyuda()' class='ayuda fa fa-question-circle'></i></p>
+    <div id="popContenido"></div>
+    <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cancelar</button>
+    <button id="aceptarTicket" class="aceptar" ng-click="tratarDatos()">Aceptar</button>
+  </div>
+</div>
+
+<div class="backgroundPopup" ng-show="mostrarPopup2">
+  <div class="popup" ng-show="mostrarPopup2">
+    <h2>Guardar ticket</h2>
+    <div id="popContenido2">
+      <p>Puedes introducir de forma opcional un nombre para el ticket, así como la casa de apuestas en la que lo obtuviste.</p>
+      <p style="font-weight: bold;">Nombre del ticket</p>
+      <input id="nombreTicket" name="nombreTicket" type="text" ng-model="nombreTicket"/>
+      <p style="font-weight: bold;">Casa de apuestas</p>
+      <input id="proveedorTicket" name="proveedorTicket" type="text" ng-model="proveedorTicket"/>
+    </div>
+    <button id="volverTicket" class="cancelar" ng-click="volverATicket()">Volver</button>
+    <button id="guardarTicket" class="aceptar" ng-click="guardarTicket(nombreTicket, proveedorTicket)">Guardar ticket</button>
+  </div>
+</div>
+
+<div class="backgroundPopup" ng-show="mostrarPopup3">
+  <div class="popup" ng-show="mostrarPopup3">
+    <h2>Instrucciones</h2>
+    <div id="popContenido3">
+      <div style='text-align:left;'><span class='spanPrin'>Para que analicemos correctamente el ticket, debes:</span> <br /><br />
+        <span class='spanSec'><b>-</b>Corregir los errores que se hayan producido</span>
+        <span class='spanSec'><b>-</b>Indicar el tipo de contenido de cada línea de la lista desplegable</span>
+        <span class='spanSec'><b>-</b>Dejar los eventos en el formato <b>Equipo1 - Equipo2</b>. Ej.: Real Madrid-F.C. Barcelona</span>
+        <span class='spanSec'><b>-</b>Dejar sólo los resultados de evento en las líneas que correspondan a estos. Ej.: <b>1X</b> o <b>Empate</b>. En caso de que también se desee analizar la cuota del evento, encerrar entre paréntesis. Ej.: <b>1X (1.80)</b></span>
+        <span class='spanSec'><b>-</b>Si la línea de resultado incluye también tipo de evento (<b>1X2</b>, <b>Marcador exacto</b>, etc) separar del resto de igual forma mediante '@'. Ej.: <b>Marcador exacto @ 2:0 (1.80)</b></span>
+      </div>
+    </div>
+    <button id="volverTicket2" class="cancelar" ng-click="volverATicket()">Volver</button>
+  </div>
+</div>
 

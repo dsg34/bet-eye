@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('AppCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $state, $ionicNavBarDelegate, $ionicSideMenuDelegate) {
+  .controller('AppCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $state, $ionicNavBarDelegate, $ionicSideMenuDelegate, usSpinnerService) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -57,8 +57,11 @@ angular.module('starter.controllers', [])
       if ($scope.loginData.email == "" || $scope.loginData.email == null || $scope.loginData.password == "" || $scope.loginData.password == null) {
         swal("¡Error!", "Debes rellenar todos los campos", "error");
       } else {
+        $scope.loginData.email = $scope.loginData.email.toLowerCase();
         var response = $http.post('http://eyebetapi.herokuapp.com/login', $scope.loginData);
+        usSpinnerService.spin('spinner');
         response.success(function (data) {
+          usSpinnerService.stop('spinner');
           if (data.estado == false)
             swal("¡Error!", data.error, "error");
           else {
@@ -89,7 +92,9 @@ angular.module('starter.controllers', [])
           var url = 'http://eyebetapi.herokuapp.com/send';
 
           var response = $http.post(url, {email: inputValue});
+          usSpinnerService.spin('spinner');
           response.success(function (data) {
+            usSpinnerService.stop('spinner');
             if(data.estado==false){
               swal("¡Error!", data.error, "error");
             }else{

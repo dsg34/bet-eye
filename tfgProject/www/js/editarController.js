@@ -3,7 +3,7 @@
  */
 angular.module('starter.controllers')
 
-  .controller('EditarCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state) {
+  .controller('EditarCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state, usSpinnerService) {
     $scope.irA = function(estado){
       $state.transitionTo(estado);
     }
@@ -17,7 +17,9 @@ angular.module('starter.controllers')
     $scope.loginData = {};
 
     var response = $http.get('http://eyebetapi.herokuapp.com/api/usuarios/usuario/'+window.localStorage.getItem('usuario'));
+    usSpinnerService.spin('spinner');
     response.success(function (data) {
+      usSpinnerService.stop('spinner');
       $scope.loginData.email = data.email;
       $scope.loginData.password = "";
       $scope.loginData.password2 = "";
@@ -39,9 +41,13 @@ angular.module('starter.controllers')
 
       if(enviar==true){
         actualiza['password2'] = $scope.loginData.password2;
+        console.log("s");
+        console.log($scope.loginData.password2);
         if($scope.loginData.password2!="" && $scope.loginData.password2!=null){
+          usSpinnerService.spin('spinner');
           var response = $http.post('http://eyebetapi.herokuapp.com/api/usuarios/editar/'+window.localStorage.getItem('usuario'), actualiza);
           response.success(function (data) {
+            usSpinnerService.stop('spinner');
             if(data.estado==true) {
               swal("¡Hecho!", "Tus datos han sido modificados con éxito.", "success");
               window.localStorage.setItem('usuario', data.email);

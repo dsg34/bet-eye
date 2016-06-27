@@ -1,5 +1,13 @@
 <ion-view>
   <ion-content>
     <h1 class="titulo">Ver tickets</h1>
+    <ion-list id="contenedorEventos">
+      <ion-item class="menuPrincipal" ng-repeat="ticket in tickets" ng-click="irADetalle(ticket._id)">
+        <div>{{ticket.nombre}}</div>
+        <div>{{formatearFecha(ticket.fecha)}}</div>
+        <div>{{ticket.importe}} €</div>
+        <div>{{ticket.premio}} €</div>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

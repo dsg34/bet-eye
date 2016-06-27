@@ -1,0 +1,42 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo">{{datosTicket.nombre}}</h1>
+    <ion-list id="contenedorEventos">
+      <ion-item class="menuPrincipal" ng-repeat="evento in datosTicket.eventos">
+        <div class="datosTicket">
+          <div><span class="equipo1">{{evento.equipo1}}</span> - <span class="equipo1">{{evento.equipo2}}</span></div>
+          <div>
+            <span ng-if="evento.tipo!=null">{{evento.tipo}} - </span>
+            <span>{{evento.resultado}}</span>
+          </div>
+          <div ng-if="evento.cuota!=null">{{evento.cuota}}€</div>
+        </div>
+        <div class="estadoApuesta" ng-click="mostrarEstadisticas(evento.estadoPartido.masInfo)" ng-if="evento.errorEstado==null">
+          <span class="datos">{{evento.estadoPartido.tiempo}}</span>
+          <span class="estado" ng-if="evento.estadoPartido.resultado!='vs'">{{evento.estadoPartido.resultado}}</span>
+        </div>
+        <div class="estadoApuesta" ng-if="evento.errorEstado!=null">
+          <span class="datos error" ng-click="mostrarError(evento.errorEstado)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+        </div>
+      </ion-item>
+      <ion-item>Importe apostado: {{datosTicket.importe}} €</ion-item>
+      <ion-item>Premio: {{datosTicket.premio}} €</ion-item>
+    </ion-list>
+  </ion-content>
+  <div class="backgroundPopup" ng-show="mostrarPopup">
+    <div class="popup" ng-show="mostrarPopup">
+      <button id="cambioEventos" class="aceptar" ng-click="cambiarAEventos()">Ver eventos</button>
+      <h2>Estadísticas</h2>
+      <div id="popContenidoDT"></div>
+      <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cerrar</button>
+    </div>
+  </div>
+  <div class="backgroundPopup" ng-show="mostrarPopup2">
+    <div class="popup" ng-show="mostrarPopup2">
+      <button id="cambioEstadisticas" class="aceptar" ng-click="cambiarAEstadisticas()">Ver estadísticas</button>
+      <h2>Eventos</h2>
+      <div id="popContenido2DT"></div>
+      <button id="cancelar2Ticket" class="cancelar" ng-click="cerrarPopup()">Cerrar</button>
+    </div>
+  </div>
+</ion-view>
