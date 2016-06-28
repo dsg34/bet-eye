@@ -24,6 +24,82 @@
     display: block!important;
   }
 
+
+.equipo{
+  font-size: 120%;
+  font-weight: bold;
+}
+
+  .eqLocal{
+    display: inline-block;
+    text-align: left;
+    width: 45%;
+  }
+
+  .eqVisitante{
+    display: inline-block;
+    text-align: right;
+    width: 45%;
+  }
+  .separacion{
+    display: inline-block;
+    width: 4%;
+  }
+
+.linea{
+  width: 100%;
+}
+
+  .escLocal{
+    display: inline-block;
+    width: 45%;
+    text-align: left;
+  }
+  .escVisitante{
+    display: inline-block;
+    width: 45%;
+    text-align: right;
+  }
+  .estadistica{
+
+  }
+  .estLocal{
+    display: inline-block;
+    width: 15%;
+    text-align: center;
+  }
+  .estVisitante{
+    display: inline-block;
+    width: 15%;
+    text-align: center;
+  }
+  .estValor{
+    font-weight: bold;
+    display: inline-block;
+    width: 65%!important;
+  }
+  .linEvent{
+    margin-bottom: 10px;
+  }
+  .evLocal{
+    display: inline-block;
+    width: 35%;
+    text-align: center;
+  }
+  .evVisitante{
+    display: inline-block;
+    width: 35%;
+    text-align: center;
+  }
+  .evValor{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    display: inline-block;
+    width: 10%!important;
+  }
+
 .estadoApuesta{
   width: 30%;
   height: 100%;

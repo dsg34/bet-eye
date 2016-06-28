@@ -345,16 +345,15 @@ angular.module('starter.controllers')
             var equipos = tratarEvento(linea);
             console.log("EVENTO "+contEvento);
             for(var j=0; j<equipos.length; j++){
-              equipos[j];
               console.log("equipo "+j+": "+equipos[j]);
               switch(j){
-                case 0: evento.equipo1 = eliminarEspacios(equipos[j]); break;
-                case 1: evento.equipo2 = eliminarEspacios(equipos[j]); break;
-                case 2: evento.equipo3 = eliminarEspacios(equipos[j]); break;
-                case 3: evento.equipo4 = eliminarEspacios(equipos[j]); break;
-                case 4: evento.equipo5 = eliminarEspacios(equipos[j]); break;
-                case 5: evento.equipo6 = eliminarEspacios(equipos[j]); break;
-                default: evento.equipox = eliminarEspacios(equipos[j]); break;
+                case 0: evento.equipo1 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 1: evento.equipo2 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 2: evento.equipo3 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 3: evento.equipo4 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 4: evento.equipo5 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 5: evento.equipo6 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                default: evento.equipox = eliminarEspacios(equipos[j]).toUpperCase(); break;
               }
             }
             contEvento++;

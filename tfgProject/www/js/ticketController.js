@@ -14,12 +14,16 @@ angular.module('starter.controllers')
       else{
         $scope.mostrarPopup = false;
         $scope.mostrarPopup2 = false;
+
+        $scope.datosPartido = [];
+        $scope.estadisticas=[];
+        $scope.eventos=[];
+
         usSpinnerService.spin('spinner');
         var response = $http.get('http://eyebetapi.herokuapp.com/api/tickets/'+$stateParams.ticketId);
         response.success(function (data) {
           $scope.datosTicket = data;
           $scope.cargarResultados();
-
         });
       }
     });
@@ -34,6 +38,7 @@ angular.module('starter.controllers')
       var url = 'http://eyebetapi.herokuapp.com/api/tickets/directo/resultado';
       var response = $http.post(url, {equipo1: $scope.datosTicket.eventos[indice].equipo1, equipo2: $scope.datosTicket.eventos[indice].equipo2});
       response.success(function(data){
+        console.log(data.datos);
         if(data.estado!=false){
           $scope.datosTicket.eventos[indice].estadoPartido = data.datos;
         }else{
@@ -55,13 +60,22 @@ angular.module('starter.controllers')
     }
 
     $scope.mostrarEstadisticas = function(masInfo){
+      if(masInfo.indexOf('http://www.resultados-futbol.com/')==-1){
+        masInfo = 'http://www.resultados-futbol.com/'+masInfo;
+      }
       var url = 'http://eyebetapi.herokuapp.com/api/tickets/directo/analisisPartido';
       var response = $http.post(url, {url: masInfo});
       usSpinnerService.spin('spinner');
+      console.log(masInfo);
       response.success(function (data) {
         usSpinnerService.stop('spinner');
         console.log(data);
-        $scope.mostrarPopup = true;
+        if(data.estado){
+          $scope.datosPartido = data;
+          $scope.mostrarPopup = true;
+        }else{
+          swal('¡Error!', data.error, 'error');
+        }
       });
     }
 

@@ -27,7 +27,24 @@
     <div class="popup" ng-show="mostrarPopup">
       <button id="cambioEventos" class="aceptar" ng-click="cambiarAEventos()">Ver eventos</button>
       <h2>Estadísticas</h2>
-      <div id="popContenidoDT"></div>
+      <div id="popContenidoDT">
+        <div>
+          <div class="linea">
+            <span class="escudo escLocal"><img src="{{datosPartido.imgLocal}}"/></span>
+            <span class="escudo escVisitante" ><img src="{{datosPartido.imgVisitante}}"/></span>
+          </div>
+          <div class="linea">
+          <span class="equipo eqLocal">{{datosPartido.local}}</span>
+            <span class="separacion"></span>
+          <span class="equipo eqVisitante">{{datosPartido.visitante}}</span>
+          </div>
+          <div class="linea" ng-repeat="est in datosPartido.estadisticas">
+            <span class="estadistica estLocal">{{est.local}}</span>
+            <span class="estadistica estValor">{{est.estadistica}}</span>
+            <span class="estadistica estVisitante">{{est.visitante}}</span>
+          </div>
+        </div>
+      </div>
       <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cerrar</button>
     </div>
   </div>
@@ -35,7 +52,22 @@
     <div class="popup" ng-show="mostrarPopup2">
       <button id="cambioEstadisticas" class="aceptar" ng-click="cambiarAEstadisticas()">Ver estadísticas</button>
       <h2>Eventos</h2>
-      <div id="popContenido2DT"></div>
+      <div id="popContenido2DT">
+        <div class="linea">
+          <span class="escudo escLocal"><img src="{{datosPartido.imgLocal}}"/></span>
+          <span class="escudo escVisitante" ><img src="{{datosPartido.imgVisitante}}"/></span>
+        </div>
+        <div class="linea">
+          <span class="equipo eqLocal">{{datosPartido.local}}</span>
+          <span class="separacion"></span>
+          <span class="equipo eqVisitante">{{datosPartido.visitante}}</span>
+        </div>
+        <div class="linea linEvent" ng-repeat="est in datosPartido.eventos">
+          <span class="evento evLocal"><span ng-if="datosPartido.local==est.equipo">{{est.evento}}<br/> <b>{{est.jugador}}</b></span></span>
+          <span class="evento evValor">{{est.minuto}}'</span>
+          <span class="evento evVisitante"><span ng-if="datosPartido.visitante==est.equipo">{{est.evento}}<br/> <b>{{est.jugador}}</b></span></span>
+        </div>
+      </div>
       <button id="cancelar2Ticket" class="cancelar" ng-click="cerrarPopup()">Cerrar</button>
     </div>
   </div>
