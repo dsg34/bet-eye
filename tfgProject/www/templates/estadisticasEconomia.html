@@ -8,8 +8,8 @@
 
     <div ng-if="seleccionada[0]=='pestañaSel'">
       <div class="linea">
-        <div class="bloqueInfo"><img width="80px" src="../images/invertido.png" alt="Invertido" /> <span>{{invertido}} €</span></div>
-        <div class="bloqueInfo"><img width="80px" src="../images/ganado.png" alt="Ganado" /> <span>{{ganado}} €</span> </div>
+        <div class="bloqueInfo"><img width="80px" src="../images/invertido.png" alt="Invertido" /> <span>{{invertido | number:2}} €</span></div>
+        <div class="bloqueInfo"><img width="80px" src="../images/ganado.png" alt="Ganado" /> <span>{{ganado | number:2}} €</span> </div>
       </div>
       <div class="linea">
         <div class="bloqueCompleto bold">

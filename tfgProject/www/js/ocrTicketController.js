@@ -244,9 +244,9 @@ angular.module('starter.controllers')
       }
 
       if(p!="" && p!=null){
-        $scope.ticket.proveedor = p;
+        $scope.ticket.proveedor = removeDiacritics(p.toUpperCase());
       }else{
-        $scope.ticket.proveedor = "Sin proveedor";
+        $scope.ticket.proveedor = "SIN PROVEEDOR";
       }
 
       $scope.ticket.usuario = window.localStorage.getItem('usuario');

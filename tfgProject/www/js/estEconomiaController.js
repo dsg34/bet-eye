@@ -3,7 +3,7 @@
  */
 angular.module('starter.controllers')
 
-  .controller('EstEconomiaCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state) {
+  .controller('EstEconomiaCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state, usSpinnerService) {
     $scope.irA = function(estado){
       $state.transitionTo(estado);
     }
@@ -11,27 +11,31 @@ angular.module('starter.controllers')
     $scope.$on('$ionicView.enter', function(e) {
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
+
+      $scope.seleccionada = ["pestañaSel",""];
+
+      var url = "http://eyebetapi.herokuapp.com/api/tickets/estadisticasTickets";
+      var response = $http.post(url, {email: window.localStorage.getItem('usuario')});
+      usSpinnerService.spin('spinner');
+      response.success(function(data){
+        usSpinnerService.stop('spinner');
+        $scope.invertido = data.datos.totalGastado;
+        $scope.ganado = data.datos.totalGanado;
+        $scope.enJuego = data.datos.dineroEnJuego;
+        $scope.ratio = data.datos.ratio;
+
+        $scope.proveedores = data.datos.porProveedor;
+        $scope.proveedores.sort(compareRatio);
+
+        $scope.proveedorActual = $scope.proveedores[0];
+
+        $scope.cambiarGrafico();
+        $scope.cambiarGrafico2();
+      });
+
     });
 
     $ionicNavBarDelegate.showBackButton(false);
-
-    $scope.seleccionada = ["pestañaSel",""];
-    $scope.invertido = 36.50;
-    $scope.ganado = 49.53;
-
-    $scope.proveedores = [
-      {proveedor: "Luckia", ratio: 7.13, invertido: 6.2, ganado: 2.9},
-      {proveedor: "Sportium", ratio: 2.13, invertido: 1.2, ganado: 3},
-      {proveedor: "Bwin", ratio: 4.13, invertido: 2, ganado: 4},
-      {proveedor: "Codere", ratio: 6.13, invertido: 3.20, ganado: 0},
-      {proveedor: "Bet365", ratio: 8.13, invertido: 1.4, ganado: 2.3},
-      {proveedor: "Betclick", ratio: 9.13, invertido: 5.2, ganado: 3.6},
-      {proveedor: "William Hill", ratio: 7.3, invertido: 10, ganado: 8.1},
-      {proveedor: "WannaBet", ratio: 2.13, invertido: 1.3, ganado: 3.2},
-      {proveedor: "Playfulbet", ratio: 1.13, invertido: 4.5, ganado: 5.4},
-    ]
-
-    $scope.proveedores.sort(compareRatio);
 
     function compareRatio(a,b) {
       if (a.ratio > b.ratio)
@@ -54,8 +58,6 @@ angular.module('starter.controllers')
       }
     }
 
-    $scope.proveedorActual = $scope.proveedores[0];
-
     $scope.opciones = [
       { title: 'Estadísticas económicas', redireccion: 'app.economia' },
       { title: 'Estadísticas de acierto', redireccion: 'app.acierto' }
@@ -72,36 +74,31 @@ angular.module('starter.controllers')
         $scope.seleccionada[num] = "pestañaSel";
       }
 
-      if(num==0){
-        console.log("si");
-        $scope.calcularRatio();
-      }
-    }
-
-    $scope.calcularRatio = function(){
-      $scope.ratio = $scope.ganado/$scope.invertido;
     }
 
     $scope.cambiarGrafico = function(){
-      if(document.getElementById("myChart")!=null) {
+      if(document.getElementById("myChart")!=null && $scope.invertido!=null && $scope.ganado!=null && $scope.enJuego!=null) {
         var piechart = document.getElementById("myChart").getContext("2d");
         var myPieChart = new Chart(piechart, {
           type: 'pie',
           data: {
             labels: [
               "Dinero invertido",
-              "Dinero ganado"
+              "Dinero ganado",
+              "Dinero en juego"
             ],
             datasets: [
               {
-                data: [$scope.invertido, $scope.ganado],
+                data: [$scope.invertido, $scope.ganado, $scope.enJuego],
                 backgroundColor: [
                   "#ed4141",
-                  "#66e760"
+                  "#66e760",
+                  "#DAFF3D"
                 ],
                 hoverBackgroundColor: [
                   "#f88181",
-                  "#9cf198"
+                  "#9cf198",
+                  "#F2FF6E"
                 ]
               }]
           },
@@ -138,33 +135,40 @@ angular.module('starter.controllers')
     }
 
     $scope.compruebaSeleccionado = function(prov){
-      if($scope.proveedorActual.proveedor==prov.proveedor){
-        return "proveedorSel";
+      if($scope.proveedorActual!=null) {
+        if ($scope.proveedorActual.proveedor == prov.proveedor) {
+          return "proveedorSel";
+        } else {
+          return "";
+        }
       }else{
         return "";
       }
     }
 
     $scope.cambiarGrafico2 = function(){
-      if(document.getElementById("myChart2")!=null) {
+      if(document.getElementById("myChart2")!=null && $scope.proveedorActual!=null) {
         var piechart = document.getElementById("myChart2").getContext("2d");
         var myPieChart = new Chart(piechart, {
           type: 'pie',
           data: {
             labels: [
               "Dinero invertido",
-              "Dinero ganado"
+              "Dinero ganado",
+              "Dinero en juego"
             ],
             datasets: [
               {
-                data: [$scope.proveedorActual.invertido, $scope.proveedorActual.ganado],
+                data: [$scope.proveedorActual.totalGastado, $scope.proveedorActual.totalGanado, $scope.proveedorActual.dineroEnJuego],
                 backgroundColor: [
                   "#ed4141",
-                  "#66e760"
+                  "#66e760",
+                  "#DAFF3D"
                 ],
                 hoverBackgroundColor: [
                   "#f88181",
-                  "#9cf198"
+                  "#9cf198",
+                  "#F2FF6E"
                 ]
               }]
           },

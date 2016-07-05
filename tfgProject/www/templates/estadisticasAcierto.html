@@ -8,7 +8,7 @@
       <button id="torneo" class="pestaña" ng-class="seleccionada[2]" ng-click="cambiarPestanya(2)">Por torneo</button>
     </div>
 
-    <!-- ------------------------------------PESTAÑA 3: ESTADÍSTICAS GENERALES--------------------- -->
+    <!-- ------------------------------------PESTAÑA 1: ESTADÍSTICAS GENERALES--------------------- -->
     <div ng-if="seleccionada[0]=='pestañaSel'">
       <div class="linea">
         <div class="bloqueInfo"><span class="texto">Total tickets</span><span class="dato">{{totalTickets}}</span></div>
@@ -16,7 +16,7 @@
       </div>
       <div class="linea">
         <div class="bloqueCompleto">
-          <span class="texto">Media de acierto por ticket</span><span class="dato">{{aciertoMedio}} %</span>
+          <span class="texto">Media de acierto por ticket</span><span class="dato">{{aciertoMedio | number:2}} %</span>
         </div>
       </div>
       <div class="linea">
@@ -36,7 +36,7 @@
       <div class="recuadroProveedores">
         <div class="cabeceraProveedores"><span class="posicion"></span><span class="prov">Proveedor</span><span class="rat">% ganados</span></div>
         <div class="contenidoProveedores">
-          <div class="datoProveedor" ng-class="compruebaSeleccionado(prov)" ng-repeat="prov in proveedores" ng-click="cambiarProveedor(prov)"><span class="posicion">{{$index+1}}º</span><span class="datoProv">{{prov.proveedor}}</span><span class="datoRat">{{prov.porcentaje}} %</span></div>
+          <div class="datoProveedor" ng-class="compruebaSeleccionado(prov)" ng-repeat="prov in proveedores" ng-click="cambiarProveedor(prov)"><span class="posicion">{{$index+1}}º</span><span class="datoProv">{{prov.proveedor}}</span><span class="datoRat">{{prov.porcentajeTickets | number:2}} %</span></div>
         </div>
       </div>
 
@@ -47,8 +47,8 @@
           </select>
         </div>
         <div class="ratioLinea">
-          <span><b>Tickets:</b> {{proveedorActual.tickets}}</span>
-          <span><b>Eventos:</b> {{proveedorActual.eventos}}</span>
+          <span><b>Tickets:</b> {{proveedorActual.numTickets}}</span>
+          <span><b>Eventos:</b> {{proveedorActual.eventosGanados + proveedorActual.eventosPerdidos + proveedorActual.eventosEnCurso}}</span>
         </div>
       </div>
       <div class="linea">
@@ -75,7 +75,7 @@
 
       <div class="linea infoRatio">
         <div class="selectLinea">
-          <select ng-init="inicializaSelectTorneo()" ng-change="cambiarProveedor(torneoSelect)" ng-model="torneoSelect" ng-options="prov.torneo for prov in torneos">
+          <select ng-init="inicializaSelectTorneo()" ng-change="cambiarTorneo(torneoSelect)" ng-model="torneoSelect" ng-options="prov.torneo for prov in torneos">
             <!--<option ng-repeat="prov in proveedores" value="{{$index}}">{{prov.proveedor}}</option>-->
           </select>
         </div>
