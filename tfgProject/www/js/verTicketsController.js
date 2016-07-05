@@ -17,9 +17,26 @@ angular.module('starter.controllers')
         response.success(function (data) {
           usSpinnerService.stop('spinner');
           $scope.tickets = data.tickets;
+          console.log($scope.tickets);
+          for(var i=0; i<$scope.tickets.length; i++){
+            $scope.comprobarEstadoTicket(i);
+          }
         });
       }
     });
+
+    $scope.comprobarEstadoTicket = function(indice){
+      var eventos = $scope.tickets[indice].eventos;
+      var estadoTicket=1;
+      for(var j=0; j<eventos.length; j++){
+        if(eventos[j].estadoEvento==0){
+          estadoTicket=0;
+        }else if(estadoTicket!=0 && eventos[j].estadoEvento==-1){
+          estadoTicket=-1;
+        }
+      }
+      $scope.tickets[indice].estadoTicket = estadoTicket;
+    }
 
     $scope.formatearFecha = function(fecha){
       var date = new Date(fecha);

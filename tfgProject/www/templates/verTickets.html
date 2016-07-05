@@ -3,10 +3,19 @@
     <h1 class="titulo">Ver tickets</h1>
     <ion-list id="contenedorEventos">
       <ion-item class="menuPrincipal" ng-repeat="ticket in tickets" ng-click="irADetalle(ticket._id)">
-        <div>{{ticket.nombre}}</div>
-        <div>{{formatearFecha(ticket.fecha)}}</div>
-        <div>{{ticket.importe}} €</div>
-        <div>{{ticket.premio}} €</div>
+        <div class="datosEstado">
+          <span ng-if="ticket.estadoTicket==-1"><i class="fa fa-minus-circle encursoSel"></i></span>
+          <span ng-if="ticket.estadoTicket==0"><i class="fa fa-times-circle falladoSel"></i></span>
+          <span ng-if="ticket.estadoTicket==1"><i class="fa fa-check-circle acertadoSel"></i></span>
+        </div>
+        <div class="datosNombre">
+          <span class="nombre">{{ticket.nombre}}</span>
+          <span>{{formatearFecha(ticket.fecha)}}</span>
+        </div>
+        <div class="datosDinero">
+          <span>{{ticket.importe}} €</span>
+          <span>{{ticket.premio}} €</span>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>

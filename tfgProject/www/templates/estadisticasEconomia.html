@@ -1,0 +1,49 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo"> Estadísticas económicas </h1>
+    <div class="contenedorPestañas">
+      <button id="generales" class="pestaña" ng-class="seleccionada[0]" ng-click="cambiarPestanya(0)">Generales</button>
+      <button id="proveedor" class="pestaña" ng-class="seleccionada[1]" ng-click="cambiarPestanya(1)">Por proveedor</button>
+    </div>
+
+    <div ng-if="seleccionada[0]=='pestañaSel'">
+      <div class="linea">
+        <div class="bloqueInfo"><img width="80px" src="../images/invertido.png" alt="Invertido" /> <span>{{invertido}} €</span></div>
+        <div class="bloqueInfo"><img width="80px" src="../images/ganado.png" alt="Ganado" /> <span>{{ganado}} €</span> </div>
+      </div>
+      <div class="linea">
+        <div class="bloqueCompleto bold">
+          Ratio de ganancia <span class="noBold">1 : {{ganado/invertido | number:2}} €</span>
+        </div>
+      </div>
+      <div class="linea">
+        <canvas ng-init="cambiarGrafico()" id="myChart" width="600" height="400"></canvas>
+      </div>
+    </div>
+
+
+    <div ng-if="seleccionada[1]=='pestañaSel'">
+      <div class="recuadroProveedores">
+        <div class="cabeceraProveedores"><span class="posicion"></span><span class="prov">Proveedor</span><span class="rat">Ratio</span></div>
+        <div class="contenidoProveedores">
+          <!--<div class="datoProveedor"><span class="datoProv">Luckia</span><span class="datoRat">1-7.13</span></div>-->
+          <div class="datoProveedor" ng-class="compruebaSeleccionado(prov)" ng-repeat="prov in proveedores" ng-click="cambiarProveedor(prov)"><span class="posicion">{{$index+1}}º</span><span class="datoProv">{{prov.proveedor}}</span><span class="datoRat">1 : {{prov.ratio}}</span></div>
+        </div>
+      </div>
+
+      <div class="linea infoRatio">
+        <div class="selectLinea">
+          <select ng-init="inicializaSelect()" ng-change="cambiarProveedor(opcionSelect)" ng-model="opcionSelect" ng-options="prov.proveedor for prov in proveedores">
+            <!--<option ng-repeat="prov in proveedores" value="{{$index}}">{{prov.proveedor}}</option>-->
+          </select>
+        </div>
+        <div class="ratioLinea">
+          <span><b>Ratio:</b> 1 : {{proveedorActual.ratio}}</span>
+        </div>
+      </div>
+      <div class="linea">
+        <canvas ng-init="cambiarGrafico()" id="myChart2" width="600" height="400"></canvas>
+      </div>
+    </div>
+
+</ion-view>

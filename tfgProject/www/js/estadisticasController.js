@@ -14,4 +14,11 @@ angular.module('starter.controllers')
     });
 
     $ionicNavBarDelegate.showBackButton(false);
+
+    console.log("eeeh");
+
+    $scope.opciones = [
+      { title: 'Estadísticas económicas', redireccion: 'app.economia' },
+      { title: 'Estadísticas de acierto', redireccion: 'app.acierto' }
+    ];
   });

@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCookies', 'ngCordova', 'angularSpinner'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngCookies', 'ngCordova', 'angularSpinner', 'chart.js'])
 
   .run(function($ionicPlatform, $http, $cookies) {
     if($cookies.get('tokenAPI')!=null && $cookies.get('tokenAPI')!="")
@@ -55,7 +55,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCookies', 'ngCordo
         url: '/estadisticas',
         views: {
           'menuContent': {
-            templateUrl: 'templates/estadisticas.html'
+            templateUrl: 'templates/estadisticas.html',
+            controller: 'EstadisticasCtrl',
+          }
+        }
+      })
+
+      .state('app.economia', {
+        url: '/economia',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/estadisticasEconomia.html',
+            controller: 'EstEconomiaCtrl',
+          }
+        }
+      })
+
+      .state('app.acierto', {
+        url: '/acierto',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/estadisticasAcierto.html',
+            controller: 'EstAciertoCtrl',
           }
         }
       })

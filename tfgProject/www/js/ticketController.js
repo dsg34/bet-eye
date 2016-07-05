@@ -30,7 +30,11 @@ angular.module('starter.controllers')
 
     $scope.cargarResultados = function(){
       for(var i=0; i<$scope.datosTicket.eventos.length; i++){
-        $scope.almacenarResultado(i);
+        $scope.datosTicket.eventos[i].indice = i;
+        if($scope.datosTicket.eventos[i].estadoPartido==null)
+          $scope.almacenarResultado(i);
+        else
+          usSpinnerService.stop('spinner');
       }
     }
 
@@ -38,9 +42,16 @@ angular.module('starter.controllers')
       var url = 'http://eyebetapi.herokuapp.com/api/tickets/directo/resultado';
       var response = $http.post(url, {equipo1: $scope.datosTicket.eventos[indice].equipo1, equipo2: $scope.datosTicket.eventos[indice].equipo2});
       response.success(function(data){
-        console.log(data.datos);
         if(data.estado!=false){
+
           $scope.datosTicket.eventos[indice].estadoPartido = data.datos;
+          console.log($scope.datosTicket.eventos[indice]);
+
+          //Si el partido ya ha finalizado, almacenamos su estado para que no se realicen tantas llamadas
+          if($scope.datosTicket.eventos[indice].estadoPartido.minutoPartido=="Finalizado"){
+            $scope.getEstadisticas(indice);
+          }
+
         }else{
           $scope.datosTicket.eventos[indice].errorEstado = data.error;
         }
@@ -59,24 +70,53 @@ angular.module('starter.controllers')
       $scope.mostrarPopup2 = false;
     }
 
-    $scope.mostrarEstadisticas = function(masInfo){
+
+    $scope.getEstadisticas = function(indice){
+      var masInfo = $scope.datosTicket.eventos[indice].estadoPartido.masInfo;
       if(masInfo.indexOf('http://www.resultados-futbol.com/')==-1){
         masInfo = 'http://www.resultados-futbol.com/'+masInfo;
       }
       var url = 'http://eyebetapi.herokuapp.com/api/tickets/directo/analisisPartido';
       var response = $http.post(url, {url: masInfo});
-      usSpinnerService.spin('spinner');
-      console.log(masInfo);
       response.success(function (data) {
-        usSpinnerService.stop('spinner');
-        console.log(data);
-        if(data.estado){
-          $scope.datosPartido = data;
-          $scope.mostrarPopup = true;
-        }else{
-          swal('¡Error!', data.error, 'error');
-        }
+        if(data.estado)
+          $scope.datosTicket.eventos[indice].estadoPartido.datosPartido = data.datos;
+        var url = "http://eyebetapi.herokuapp.com/api/tickets/cambiarEstadoEvento";
+        console.log($scope.datosTicket.eventos[indice].estadoPartido);
+        var responseCambiarEstado = $http.post(url, {id: $stateParams.ticketId, indice: indice, estadoPartido: $scope.datosTicket.eventos[indice].estadoPartido});
+        usSpinnerService.spin('spinner');
+        responseCambiarEstado.success(function(data){
+          console.log("Realizado");
+          console.log(data);
+          usSpinnerService.stop('spinner');
+        });
       });
+    }
+
+    $scope.mostrarEstadisticas = function(masInfo, indice){
+      console.log(indice);
+      console.log($scope.datosTicket.eventos[indice].estadoPartido.datosPartido);
+      if($scope.datosTicket.eventos[indice].estadoPartido.datosPartido==null) {
+        if (masInfo.indexOf('http://www.resultados-futbol.com/') == -1) {
+          masInfo = 'http://www.resultados-futbol.com/' + masInfo;
+        }
+        var url = 'http://eyebetapi.herokuapp.com/api/tickets/directo/analisisPartido';
+        var response = $http.post(url, {url: masInfo});
+        usSpinnerService.spin('spinner');
+        response.success(function (data) {
+          usSpinnerService.stop('spinner');
+          console.log(data);
+          if (data.estado == true) {
+            $scope.datosPartido = data.datos;
+            $scope.mostrarPopup = true;
+          } else {
+            swal('¡Error!', data.error, 'error');
+          }
+        });
+      }else{
+        $scope.datosPartido = $scope.datosTicket.eventos[indice].estadoPartido.datosPartido;
+        $scope.mostrarPopup = true;
+      }
     }
 
     $scope.cerrarPopup = function(){
@@ -86,6 +126,26 @@ angular.module('starter.controllers')
 
     $scope.mostrarError = function(err){
       swal("Error", err, "error");
+    }
+
+    $scope.comprobarEstado = function(num, est){
+      var devuelve = "";
+      switch(num){
+        case -1: if(num==est || est==null) devuelve="encursoSel"; break;
+        case 0: if(num==est) devuelve="falladoSel";break;
+        case 1: if(num==est) devuelve="acertadoSel";break;
+      }
+      return devuelve;
+    }
+
+    $scope.cambiarEstado = function(estado, indice){
+      $scope.datosTicket.eventos[indice].estadoEvento = estado;
+      var url = "http://eyebetapi.herokuapp.com/api/tickets/cambiarAcertadoEvento";
+      var responseCambiarEstado = $http.post(url, {id: $stateParams.ticketId, indice: indice, estadoEvento: estado});
+      usSpinnerService.spin('spinner');
+      responseCambiarEstado.success(function(data){
+        usSpinnerService.stop('spinner');
+      });
     }
 
     $ionicNavBarDelegate.showBackButton(false);

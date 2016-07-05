@@ -1,0 +1,91 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo"> Estadísticas de acierto </h1>
+    <div class="contenedorPestañas">
+      <button id="generales" class="pestaña" ng-class="seleccionada[0]" ng-click="cambiarPestanya(0)">Generales</button>
+      <button id="proveedor" class="pestaña" ng-class="seleccionada[1]" ng-click="cambiarPestanya(1)">Por proveedor</button>
+      <div class="recoloca"></div>
+      <button id="torneo" class="pestaña" ng-class="seleccionada[2]" ng-click="cambiarPestanya(2)">Por torneo</button>
+    </div>
+
+    <!-- ------------------------------------PESTAÑA 3: ESTADÍSTICAS GENERALES--------------------- -->
+    <div ng-if="seleccionada[0]=='pestañaSel'">
+      <div class="linea">
+        <div class="bloqueInfo"><span class="texto">Total tickets</span><span class="dato">{{totalTickets}}</span></div>
+        <div class="bloqueInfo"><span class="texto">Total eventos</span><span class="dato">{{totalEventos}}</span> </div>
+      </div>
+      <div class="linea">
+        <div class="bloqueCompleto">
+          <span class="texto">Media de acierto por ticket</span><span class="dato">{{aciertoMedio}} %</span>
+        </div>
+      </div>
+      <div class="linea">
+        <span class="texto bold centrado">Eventos</span>
+        <div class="graficaMitad">
+          <canvas ng-init="cambiarGrafico1()" id="grafica1" width="600" height="400"></canvas>
+        </div>
+        <span class="texto bold centrado">Tickets</span>
+        <div class="graficaMitad">
+          <canvas ng-init="cambiarGrafico2()" id="grafica2" width="600" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------PESTAÑA 2: ESTADÍSTICAS ORGANIZADAS POR PROVEEDOR--------------------- -->
+    <div ng-if="seleccionada[1]=='pestañaSel'">
+      <div class="recuadroProveedores">
+        <div class="cabeceraProveedores"><span class="posicion"></span><span class="prov">Proveedor</span><span class="rat">% ganados</span></div>
+        <div class="contenidoProveedores">
+          <div class="datoProveedor" ng-class="compruebaSeleccionado(prov)" ng-repeat="prov in proveedores" ng-click="cambiarProveedor(prov)"><span class="posicion">{{$index+1}}º</span><span class="datoProv">{{prov.proveedor}}</span><span class="datoRat">{{prov.porcentaje}} %</span></div>
+        </div>
+      </div>
+
+      <div class="linea infoRatio">
+        <div class="selectLinea selectLinea2">
+          <select ng-init="inicializaSelect()" ng-change="cambiarProveedor(opcionSelect)" ng-model="opcionSelect" ng-options="prov.proveedor for prov in proveedores">
+            <!--<option ng-repeat="prov in proveedores" value="{{$index}}">{{prov.proveedor}}</option>-->
+          </select>
+        </div>
+        <div class="ratioLinea">
+          <span><b>Tickets:</b> {{proveedorActual.tickets}}</span>
+          <span><b>Eventos:</b> {{proveedorActual.eventos}}</span>
+        </div>
+      </div>
+      <div class="linea">
+        <span class="texto bold centrado">Eventos</span>
+        <div class="graficaMitad">
+          <canvas ng-init="cambiarGrafico3()" id="grafica3" width="600" height="400"></canvas>
+        </div>
+        <span class="texto bold centrado">Tickets</span>
+        <div class="graficaMitad">
+          <canvas ng-init="cambiarGrafico4()" id="grafica4" width="600" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------PESTAÑA 3: ESTADÍSTICAS ORGANIZADAS POR TORNEO--------------------- -->
+    <div ng-if="seleccionada[2]=='pestañaSel'">
+      <div class="recuadroProveedores">
+        <div class="cabeceraProveedores"><span class="posicion"></span><span class="prov">Torneo</span><span class="rat">% acierto</span></div>
+        <div class="contenidoProveedores">
+          <!--<div class="datoProveedor"><span class="datoProv">Luckia</span><span class="datoRat">1-7.13</span></div>-->
+          <div class="datoProveedor" ng-class="compruebaTorneoSeleccionado(prov)" ng-repeat="prov in torneos" ng-click="cambiarTorneo(prov)"><span class="posicion">{{$index+1}}º</span><span class="datoProv">{{prov.torneo}}</span><span class="datoRat">{{prov.acertados / prov.eventos *100 | number:2}} %</span></div>
+        </div>
+      </div>
+
+      <div class="linea infoRatio">
+        <div class="selectLinea">
+          <select ng-init="inicializaSelectTorneo()" ng-change="cambiarProveedor(torneoSelect)" ng-model="torneoSelect" ng-options="prov.torneo for prov in torneos">
+            <!--<option ng-repeat="prov in proveedores" value="{{$index}}">{{prov.proveedor}}</option>-->
+          </select>
+        </div>
+        <div class="ratioLinea">
+          <span><b>Eventos: </b>{{torneoActual.eventos}}</span>
+        </div>
+      </div>
+      <div class="linea">
+        <canvas ng-init="cambiarGrafico5()" id="grafica5" width="600" height="400"></canvas>
+      </div>
+    </div>
+
+</ion-view>

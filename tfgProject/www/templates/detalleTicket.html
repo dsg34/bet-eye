@@ -4,20 +4,35 @@
     <ion-list id="contenedorEventos">
       <ion-item class="menuPrincipal" ng-repeat="evento in datosTicket.eventos">
         <div class="datosTicket">
-          <div><span class="equipo1">{{evento.equipo1}}</span> - <span class="equipo1">{{evento.equipo2}}</span></div>
+          <div>
+            {{evento.equipo1}} - {{evento.equipo2}}
+          </div>
           <div>
             <span ng-if="evento.tipo!=null">{{evento.tipo}} - </span>
             <span>{{evento.resultado}}</span>
           </div>
           <div ng-if="evento.cuota!=null">{{evento.cuota}}€</div>
         </div>
-        <div class="estadoApuesta" ng-click="mostrarEstadisticas(evento.estadoPartido.masInfo)" ng-if="evento.errorEstado==null">
-          <span class="datos">{{evento.estadoPartido.tiempo}}</span>
-          <span class="estado" ng-if="evento.estadoPartido.resultado!='vs'">{{evento.estadoPartido.resultado}}</span>
+        <div class="estadoApuesta" ng-if="evento.errorEstado==null">
+          <div ng-click="mostrarEstadisticas(evento.estadoPartido.masInfo, evento.indice)">
+          <span class="datos min" ng-if="evento.estadoPartido!=null">{{evento.estadoPartido.minutoPartido}}</span>
+          <span class="datos hora" ng-if="evento.estadoPartido==null">{{evento.estadoPartido.horaComienzo}}</span>
+          <span class="estado res" ng-if="evento.estadoPartido.resultado!='vs'">{{evento.estadoPartido.resultado}}</span>
+          </div>
+          <span class="acertado">
+            <i class="fa fa-check-circle" ng-click="cambiarEstado(1, evento.indice)" ng-class="comprobarEstado(1, evento.estadoEvento)"></i>
+            <i class="fa fa-times-circle" ng-click="cambiarEstado(0, evento.indice)" ng-class="comprobarEstado(0, evento.estadoEvento)"></i>
+            <i class="fa fa-minus-circle" ng-click="cambiarEstado(-1, evento.indice)" ng-class="comprobarEstado(-1, evento.estadoEvento)"></i>
+          </span>
         </div>
         <div class="estadoApuesta" ng-if="evento.errorEstado!=null">
-          <span class="datos error" ng-click="mostrarError(evento.errorEstado)"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-        </div>
+          <span class="datos error" ng-click="mostrarError(evento.errorEstado)"><i class="fa fa-times" aria-hidden="true"></i></span>
+          <span class="acertado">
+            <i class="fa fa-check-circle" ng-click="cambiarEstado(1, evento.indice)" ng-class="comprobarEstado(1, evento.estadoEvento)"></i>
+            <i class="fa fa-times-circle" ng-click="cambiarEstado(0, evento.indice)" ng-class="comprobarEstado(0, evento.estadoEvento)"></i>
+            <i class="fa fa-minus-circle" ng-click="cambiarEstado(-1, evento.indice)" ng-class="comprobarEstado(-1, evento.estadoEvento)"></i>
+          </span>
+       </div>
       </ion-item>
       <ion-item>Importe apostado: {{datosTicket.importe}} €</ion-item>
       <ion-item>Premio: {{datosTicket.premio}} €</ion-item>
@@ -27,11 +42,11 @@
     <div class="popup" ng-show="mostrarPopup">
       <button id="cambioEventos" class="aceptar" ng-click="cambiarAEventos()">Ver eventos</button>
       <h2>Estadísticas</h2>
-      <div id="popContenidoDT">
+      <div id="popContenidoDT" ng-if="datosPartido.estadisticas.length>0">
         <div>
           <div class="linea">
             <span class="escudo escLocal"><img src="{{datosPartido.imgLocal}}"/></span>
-            <span class="escudo escVisitante" ><img src="{{datosPartido.imgVisitante}}"/></span>
+            <span class="escudo escVisitante"><img src="{{datosPartido.imgVisitante}}"/></span>
           </div>
           <div class="linea">
           <span class="equipo eqLocal">{{datosPartido.local}}</span>
@@ -45,6 +60,9 @@
           </div>
         </div>
       </div>
+      <div class="aviso" ng-if="datosPartido.estadisticas.length<=0">
+        No existen estadísticas de este partido
+      </div>
       <button id="cancelarTicket" class="cancelar" ng-click="cerrarPopup()">Cerrar</button>
     </div>
   </div>
@@ -52,7 +70,7 @@
     <div class="popup" ng-show="mostrarPopup2">
       <button id="cambioEstadisticas" class="aceptar" ng-click="cambiarAEstadisticas()">Ver estadísticas</button>
       <h2>Eventos</h2>
-      <div id="popContenido2DT">
+      <div id="popContenido2DT" ng-if="datosPartido.eventos.length>0">
         <div class="linea">
           <span class="escudo escLocal"><img src="{{datosPartido.imgLocal}}"/></span>
           <span class="escudo escVisitante" ><img src="{{datosPartido.imgVisitante}}"/></span>
@@ -67,6 +85,9 @@
           <span class="evento evValor">{{est.minuto}}'</span>
           <span class="evento evVisitante"><span ng-if="datosPartido.visitante==est.equipo">{{est.evento}}<br/> <b>{{est.jugador}}</b></span></span>
         </div>
+      </div>
+      <div class="aviso" ng-if="datosPartido.eventos.length<=0">
+        No existen eventos de este partido
       </div>
       <button id="cancelar2Ticket" class="cancelar" ng-click="cerrarPopup()">Cerrar</button>
     </div>

@@ -1,4 +1,27 @@
 /* Empty. Add your own CSS if you like */
+.acertado i{
+  font-size: 110%;
+}
+
+.aviso{
+  font-size: 150%;
+}
+
+.acertadoSel{
+  font-size: 150%!important;
+  color: #3ba738;
+}
+
+.falladoSel{
+  font-size: 150%!important;
+  color: #b9330e;
+}
+
+.encursoSel{
+  font-size: 150%!important;
+  color: #b7c51a;
+}
+
 .ayuda{
   font-size: 50px!important;
   color: #2ca1d9;
@@ -9,21 +32,85 @@
   width: 80%;
 }
 
+.centrado{
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #contenedorMenus{
   padding-top: 50%!important;
 }
 
+.dato{
+  font-size: 250%!important;
+}
+
+.datosEstado{
+  position: relative;
+  transform: translateY(-10%);
+
+  margin-right: 15px;
+  width: 10%;
+  display: inline-block;
+  font-size: 150%!important;
+}
+
+.datosDinero{
+  text-align: right;
+  position: relative;
+  width: 30%;
+  display: inline-block;
+}
+  .datosDinero span{
+    display: block;
+  }
+
+.datosNombre{
+  position: relative;
+  width: 50%!important;
+  display: inline-block;
+}
+  .nombre{
+    font-weight: bold;
+  }
+
+  .datosNombre span{
+    display: block;
+  }
+
 .datosTicket{
   width: 70%;
   height: 100%;
-  border: solid 5px;
+
   position: relative;
   display: inline-block;
+  white-space: normal!important;
 }
   .datosTicket div{
+    width: 100%;
     display: block!important;
+    white-space: normal!important;
+    margin-bottom: 10px;
   }
 
+.estadoApuesta{
+  width: 30%;
+  height: 100%;
+  position: relative;
+
+  display: inline-block;
+  text-align: center;
+}
+.estadoApuesta span{
+  margin-bottom: 10px;
+  display: block!important;
+}
+.estadoApuesta .error i{
+  color: #db2e1c;
+  font-size: 200%;
+}
 
 .equipo{
   font-size: 120%;
@@ -48,7 +135,39 @@
 
 .linea{
   width: 100%;
+  display: block;
+  position: relative;
+  margin-top: 50px;
 }
+
+.bold{
+  font-weight: bold;
+}
+
+.noBold{
+  font-weight: normal!important;
+}
+
+.bloqueInfo{
+  text-align: center;
+  display: inline-block;
+  width: 49%;
+}
+  .bloqueInfo span{
+    padding: 10px;
+    display: block;
+    font-size: 200%;
+  }
+
+.bloqueCompleto{
+  font-size: 150%;
+  text-align: center;
+}
+  .bloqueCompleto span{
+    padding: 10px;
+    display: block;
+    font-size: 150%;
+  }
 
   .escLocal{
     display: inline-block;
@@ -100,21 +219,6 @@
     width: 10%!important;
   }
 
-.estadoApuesta{
-  width: 30%;
-  height: 100%;
-  position: relative;
-  border: solid;
-  display: inline-block;
-}
-  .estadoApuesta span{
-    display: block!important;
-  }
-  .estadoApuesta .error i{
-    color: #db2e1c;
-    font-size: 200%;
-  }
-
 #escaner{
   margin: auto;
   width: 80%;
@@ -133,6 +237,15 @@
   padding: 10px;
 }
 
+.graficaMitad{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 70% !important;
+  margin-bottom: 30px;
+}
+
 .input-label{
   width: 10%;
   display: block;
@@ -147,6 +260,9 @@
   padding-bottom: 20px;
   line-height: 100%;
 }
+  .menuPrincipal span{
+    margin-bottom: 15px;
+  }
 
 .parrafo{
   text-align: center;
@@ -165,6 +281,39 @@
   text-align: center;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+.contenedorPestañas{
+  width: 100%;
+}
+
+.pestaña{
+  opacity: 0.8;
+  background-color: rgb(255, 73, 58);
+  color: white;
+  border: none;
+  box-shadow: none;
+  position: relative;
+  width: 45%;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  -webkit-border-radius: 4px;
+  border-radius: 5px;
+  padding: 10px 32px;
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  -webkit-box-shadow: 7px 7px 3px -3px rgba(0,0,0,0);
+  -moz-box-shadow: 7px 7px 3px -3px rgba(0,0,0,0);
+  box-shadow: 7px 7px 3px -3px rgba(0,0,0,0);
+}
+  .pestañaSel{
+    opacity: 1;
+    font-size: 15px;
+    -webkit-box-shadow: 7px 7px 3px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 7px 7px 3px -3px rgba(0,0,0,0.75);
+    box-shadow: 7px 7px 3px -3px rgba(0,0,0,0.75);
+  }
 
 @media (max-width: 540px) {
   .popup {
@@ -249,6 +398,86 @@
   font-weight: bold;
 }
 
+.recoloca{
+  width: 25%;
+  display: inline-block;
+}
+
+.recuadroProveedores{
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width:80%;
+  border: solid 5px #474747;
+  border-radius: 6px;
+  font-size: 130%;
+}
+  .cabeceraProveedores{
+    background-color: rgb(255, 73, 58);
+    color: white;
+    padding-top:10px;
+    padding-bottom:10px;
+    border-bottom: solid 5px #474747;
+    font-weight: bold;
+  }
+  .cabeceraProveedores span, .contenidoProveedores span{
+    text-align: center;
+  }
+  .prov, .datoProv{
+    display: inline-block;
+    width: 45%;
+  }
+  .rat, .datoRat{
+    display: inline-block;
+    width: 40%;
+  }
+  .posicion{
+    display: inline-block;
+    width: 15%;
+    font-weight: bold;
+    text-align: center;
+  }
+  .datoProveedor{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .contenidoProveedores{
+    max-height: 200px;
+    overflow: scroll;
+  }
+
+  .infoRatio div{
+    text-align: center;
+    display: inline-block;
+    font-size: 140%;
+    width: 45%;
+  }
+
+    .ratioLinea{
+      height: 100%;
+      font-size: 160%!important;
+    }
+
+    .ratioLinea span{
+      display:block;
+    }
+
+    .selectLinea2{
+      position: relative;
+      top: 30%;
+      transform: translateY(-30%);
+    }
+
+    .selectLinea select{
+      border: solid 5px #474747;
+      border-radius: 6px;
+      font-size: 100%;
+    }
+
+    .proveedorSel{
+      background-color: #d6d6d6;
+    }
+
 .recPass{
   display: block;
   text-align: center;
@@ -277,6 +506,10 @@
 
 .spanSec:first-letter {
   font-weight: bold;
+}
+
+.texto{
+  font-size: 140%!important;
 }
 
 .titulo{
