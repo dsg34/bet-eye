@@ -2,7 +2,7 @@
   <ion-content>
     <h1 class="titulo">{{datosTicket.nombre}}</h1>
     <ion-list id="contenedorEventos">
-      <ion-item class="menuPrincipal" ng-repeat="evento in datosTicket.eventos">
+      <ion-item class="menuTickets noPaddingTop" ng-repeat="evento in datosTicket.eventos">
         <div class="datosTicket">
           <div>
             {{evento.equipo1}} - {{evento.equipo2}}

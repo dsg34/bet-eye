@@ -2,7 +2,8 @@
   <ion-content>
     <h1 class="titulo">Ver tickets</h1>
     <ion-list id="contenedorEventos">
-      <ion-item class="menuPrincipal" ng-repeat="ticket in tickets" ng-click="irADetalle(ticket._id)">
+      <ion-item class="menuTickets" ng-repeat="ticket in tickets" ng-click="irADetalle(ticket._id)">
+        <i class="cerrar fa fa-times fa-lg" ng-click="eliminarTicket(ticket)"></i>
         <div class="datosEstado">
           <span ng-if="ticket.estadoTicket==-1"><i class="fa fa-minus-circle encursoSel"></i></span>
           <span ng-if="ticket.estadoTicket==0"><i class="fa fa-times-circle falladoSel"></i></span>

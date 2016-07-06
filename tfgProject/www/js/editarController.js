@@ -8,6 +8,7 @@ angular.module('starter.controllers')
       $state.transitionTo(estado);
     }
     $scope.$on('$ionicView.enter', function(e) {
+      usSpinnerService.stop('spinner');
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
     });

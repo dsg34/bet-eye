@@ -9,6 +9,7 @@ angular.module('starter.controllers')
     }
 
     $scope.$on('$ionicView.enter', function(e) {
+      usSpinnerService.stop('spinner');
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
 
@@ -19,6 +20,7 @@ angular.module('starter.controllers')
       usSpinnerService.spin('spinner');
       response.success(function(data){
         usSpinnerService.stop('spinner');
+        console.log(data);
         $scope.invertido = data.datos.totalGastado;
         $scope.ganado = data.datos.totalGanado;
         $scope.enJuego = data.datos.dineroEnJuego;
@@ -77,7 +79,11 @@ angular.module('starter.controllers')
     }
 
     $scope.cambiarGrafico = function(){
+      console.log("Hola");
+      console.log(document.getElementById("myChart"));
+      console.log($scope.invertido + " / " + $scope.ganado + " / " + $scope.enJuego);
       if(document.getElementById("myChart")!=null && $scope.invertido!=null && $scope.ganado!=null && $scope.enJuego!=null) {
+        console.log("Adios");
         var piechart = document.getElementById("myChart").getContext("2d");
         var myPieChart = new Chart(piechart, {
           type: 'pie',

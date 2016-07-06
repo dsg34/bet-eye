@@ -100,6 +100,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCookies', 'ngCordo
         }
       })
 
+      .state('app.insertar', {
+        url: '/insertar',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/ticketManual.html',
+            controller: 'CrearTicketCtrl'
+          }
+        }
+      })
+
       .state('app.tickets', {
         url: '/tickets',
         views: {

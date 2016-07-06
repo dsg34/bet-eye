@@ -3,8 +3,9 @@
  */
 angular.module('starter.controllers')
 
-  .controller('EstadisticasCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state) {
+  .controller('EstadisticasCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state, usSpinnerService) {
     $scope.irA = function(estado){
+      usSpinnerService.stop('spinner');
       $state.transitionTo(estado);
     }
 

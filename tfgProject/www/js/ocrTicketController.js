@@ -11,6 +11,7 @@ angular.module('starter.controllers')
     $scope.$on('$ionicView.enter', function(e) {
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
+      usSpinnerService.stop('spinner');
     });
 
     $ionicNavBarDelegate.showBackButton(false);
@@ -263,7 +264,6 @@ angular.module('starter.controllers')
             timer: 2500,
             showConfirmButton: false
           }, function(){
-            console.log("Se ha cerrado");
             swal.close();
             $state.go('app.detalleTicket', {ticketId: data._id});
           }

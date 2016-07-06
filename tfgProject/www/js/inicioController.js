@@ -3,7 +3,7 @@
  */
 angular.module('starter.controllers')
 
-  .controller('InicioCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state) {
+  .controller('InicioCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $state, usSpinnerService) {
     $scope.irA = function(estado){
       $state.transitionTo(estado);
     }
@@ -11,6 +11,7 @@ angular.module('starter.controllers')
     $scope.$on('$ionicView.enter', function(e) {
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
+      usSpinnerService.stop('spinner');
     });
 
     $ionicNavBarDelegate.showBackButton(false);
@@ -19,6 +20,7 @@ angular.module('starter.controllers')
     $scope.opciones = [
       { title: 'Ver tickets', redireccion: 'app.tickets' },
       { title: 'Escanear nuevo ticket', redireccion: 'app.escanear' },
+      { title: 'Crear ticket manual', redireccion: 'app.insertar' },
       { title: 'Ver estadísticas', redireccion: 'app.estadisticas' },
     ];
   });

@@ -38,6 +38,44 @@ angular.module('starter.controllers')
       $scope.tickets[indice].estadoTicket = estadoTicket;
     }
 
+    var irATicket = true;
+    $scope.eliminarTicket = function(ticket){
+
+      swal({
+        title: "Eliminar ticket",
+        text: "¿Estás seguro de que deseas eliminar el ticket "+ ticket.nombre +"?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Eliminar",
+        closeOnConfirm: false
+      }, function(){
+        usSpinnerService.spin('spinner');
+        var response = $http.delete('http://eyebetapi.herokuapp.com/api/tickets/'+ticket._id);
+        response.success(function (data) {
+          usSpinnerService.stop('spinner');
+          if(data.estado) {
+            swal(
+              {
+                title: "¡Hecho!",
+                text: "El ticket ha sido eliminado.",
+                type: 'success',
+                timer: 2500,
+                showConfirmButton: false
+              }, function () {
+                swal.close();
+                $state.go($state.current, {}, {reload: true});
+              }
+            );
+          }
+          else
+            swal("¡Error!", data.error, "error");
+        })
+      });
+
+      irATicket = false;
+    }
+
     $scope.formatearFecha = function(fecha){
       var date = new Date(fecha);
       var string = "";
@@ -46,7 +84,10 @@ angular.module('starter.controllers')
     }
 
     $scope.irADetalle = function(id){
-      $state.go('app.detalleTicket', {ticketId: id});
+      if(irATicket)
+        $state.go('app.detalleTicket', {ticketId: id});
+      else
+        irATicket=true;
     }
 
     $ionicNavBarDelegate.showBackButton(false);

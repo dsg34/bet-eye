@@ -9,6 +9,7 @@ angular.module('starter.controllers')
     }
 
     $scope.$on('$ionicView.enter', function(e) {
+      usSpinnerService.stop('spinner');
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
 
@@ -24,6 +25,8 @@ angular.module('starter.controllers')
 
         $scope.proveedores.sort(comparePorcentaje);
         $scope.torneos.sort(comparePorcentajeTorneo);
+
+        console.log($scope.proveedores);
 
         $scope.proveedorActual = $scope.proveedores[0];
         $scope.torneoActual = $scope.torneos[0];
@@ -303,9 +306,9 @@ angular.module('starter.controllers')
     }
 
     function comparePorcentaje(a,b) {
-      if (a.porcentajeEventos > b.porcentajeEventos)
+      if (a.porcentajeTickets > b.porcentajeTickets)
         return -1;
-      else if (a.porcentajeEventos < b.porcentajeEventos)
+      else if (a.porcentajeTickets < b.porcentajeTickets)
         return 1;
       else
         return 0;

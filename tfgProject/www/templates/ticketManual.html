@@ -1,0 +1,48 @@
+<ion-view>
+  <ion-content>
+    <h1 class="titulo">Crear ticket manual</h1>
+    <ion-list>
+      <ion-item class="menuTickets" ng-repeat="ev in eventos">
+        <i class="cerrar fa fa-times fa-lg" ng-click="eliminarEvento($index)"></i>
+        <div class="divEvento a100">{{ev.equipo1}} - {{ev.equipo2}}</div>
+        <div class="divEvento">
+          <span class="spanEvento" ng-if="ev.tipo">{{ev.tipo}}</span><span class="spanEvento">{{ev.resultado}}</span><span class="spanEvento" ng-if="ev.cuota">({{ev.cuota}}€)</span>
+        </div>
+      </ion-item>
+    </ion-list>
+    <form class="form login" ng-submit="registro()">
+      <div class="list formTicket">
+        <input type="text" class="a40" placeholder="Equipo 1" ng-model="evento.equipo1"> -
+        <input type="text" class="a40" placeholder="Equipo 2" ng-model="evento.equipo2">
+        <input type="text" class="a80" placeholder="Tipo de apuesta" ng-model="evento.tipo">
+        <input type="text" class="a60" placeholder="Resultado" ng-model="evento.resultado">
+        <input type="number" class="a30" placeholder="Cuota" ng-model="evento.cuota">
+
+        <label class="item">
+          <button class="button button-block button-positive" ng-click="guardarEvento()">Añadir evento</button>
+        </label>
+        <label>
+          <button class="button button-block button-positive" ng-click="siguiente()">Siguiente</button>
+        </label>
+      </div>
+    </form>
+    <div class="backgroundPopup" ng-show="mostrarPopup">
+      <div class="popup" ng-show="mostrarPopup">
+        <h2>Guardar ticket</h2>
+        <div id="popContenido2">
+          <p>Añade un nombre para el ticket, la casa de apuestas en la que lo obtuviste, el importe apostado y el premio del mismo.</p>
+          <p style="font-weight: bold;">Nombre del ticket</p>
+          <input id="nombreTicket" name="nombreTicket" type="text" ng-model="nombreTicket"/>
+          <p style="font-weight: bold;">Casa de apuestas</p>
+          <input id="proveedorTicket" name="proveedorTicket" type="text" ng-model="proveedorTicket"/>
+          <p style="font-weight: bold;">Importe apostado</p>
+          <input id="importeTicket" name="importeTicket" type="number" ng-model="importeTicket"/> €
+          <p style="font-weight: bold;">Premio</p>
+          <input id="premioTicket" name="premioTicket" type="number" ng-model="premioTicket"/> €
+        </div>
+        <button id="volverTicket" class="cancelar" ng-click="volverATicket()">Volver</button>
+        <button id="guardarTicket" class="aceptar" ng-click="guardarTicket(nombreTicket, proveedorTicket, importeTicket, premioTicket)">Guardar ticket</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

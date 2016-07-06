@@ -11,6 +11,7 @@ angular.module('starter.controllers')
     $scope.$on('$ionicView.enter', function(e) {
       if (window.localStorage.getItem('usuario') != null)
         $scope.irA('app.inicio');
+      usSpinnerService.stop('spinner');
     });
 
     $scope.loginData = {};

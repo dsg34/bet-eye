@@ -1,4 +1,49 @@
 /* Empty. Add your own CSS if you like */
+.a20{
+  display: inline-block!important;
+  width: 20%!important;
+}
+
+.a30{
+  display: inline-block!important;
+  width: 30%!important;
+}
+
+.a40{
+  display: inline-block!important;
+  width: 40%!important;
+}
+
+.a50{
+  display: inline-block!important;
+  width: 50%!important;
+}
+
+.a60{
+  display: inline-block!important;
+  width: 60%!important;
+}
+
+.a70{
+  display: inline-block!important;
+  width: 70%!important;
+}
+
+.a80{
+  display: inline-block!important;
+  width: 80%!important;
+}
+
+.a90{
+  display: inline-block!important;
+  width: 90%!important;
+}
+
+.a100{
+  display: inline-block!important;
+  width: 100%!important;
+}
+
 .acertado i{
   font-size: 110%;
 }
@@ -37,6 +82,13 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.cerrar{
+  color: #ff473d;
+  position: absolute;
+  top: 10px;
+  right:10px;
 }
 
 #contenedorMenus{
@@ -132,6 +184,22 @@
     display: inline-block;
     width: 4%;
   }
+
+.formTicket{
+  text-align: center;
+}
+
+.formTicket input{
+  margin-right: 5px!important;
+  margin-bottom: 10px;
+}
+
+ion-side-menu.menu-left.menu,  ion-side-menu.menu-left.menu *, ion-header-bar, .ion-navicon, ion-header-bar *{
+  background-color: rgb(255, 73, 58) !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
 
 .linea{
   width: 100%;
@@ -251,17 +319,83 @@
   display: block;
 }
 
-.menuPrincipal{
+.noPaddingTop{
+  padding-top: 30px!important;
+}
+
+h3{
+  position: relative;
+  margin-top: 40px!important;
+  text-align: center;
+}
+
+.login{
+  display: block;
+  margin-top: 30px;
+}
+
+.menuTickets{
+  padding-top: 45px;
   text-align: left;
   border: 2px solid;
 
   font-size: 150%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
   line-height: 100%;
+}
+  .menuTickets span{
+    margin-bottom: 15px;
+  }
+.menuPrincipal{
+  background-color: rgb(255, 73, 58);
+  color: white;
+  text-align: left;
+  border: 2px solid;
+
+  font-size: 150%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  line-height: 100%;
+
+
+  margin-bottom: 25px;
+  border-radius: 10px;
 }
   .menuPrincipal span{
     margin-bottom: 15px;
+  }
+
+  .menuInicio{
+    display:inline-block;
+    width: 50%;
+    height: 150px;
+
+    background-color: rgb(255, 73, 58);
+    color: white;
+
+    border: 2px solid;
+
+    position: relative;
+    font-size: 150%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    line-height: 150%;
+
+    border-radius: 10px;
+
+  }
+  .menuInicio div{
+    position: relative;
+    display: block;
+    white-space: normal!important;
+    position: relative;
+    top: 25%;
+    transform: translateY(-25%);
+  }
+
+.item.active, .item.activated, .item-complex.active .item-content, .item-complex.activated .item-content {
+    background-color: rgb(255, 165, 131);
+    color: white;
   }
 
 .parrafo{
@@ -315,15 +449,13 @@
     box-shadow: 7px 7px 3px -3px rgba(0,0,0,0.75);
   }
 
-@media (max-width: 540px) {
-  .popup {
+ .popup {
     width: auto;
     margin-left: 0;
     margin-right: 0;
     left: 15px !important;
     right: 15px !important;
   }
-}
 
 .popup{
   position: fixed;
@@ -375,7 +507,11 @@
   margin-right: 10px;
 }
 
-.popup input[type="text"], .popup select {
+.popup input[type="number"]{
+  width: 30%!important;
+}
+
+.popup input[type="text"], .popup input[type="number"], .popup select {
   width: 80%;
   display: inline;
   box-sizing: border-box;
@@ -479,6 +615,7 @@
     }
 
 .recPass{
+  margin-top: 20px;
   display: block;
   text-align: center;
 }
@@ -488,7 +625,19 @@
   color: white;
   font-weight: bold;
   padding: 10px;
-  display: inline-block;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: block;
+}
+
+.divEvento{
+  margin-bottom: 15px;
+}
+
+.spanEvento{
+  margin: 10px;
 }
 
 .spanPrin{
