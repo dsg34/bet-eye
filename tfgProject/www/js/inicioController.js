@@ -8,6 +8,8 @@ angular.module('starter.controllers')
       $state.transitionTo(estado);
     }
 
+    $scope.paginaInicio = true;
+
     $scope.$on('$ionicView.enter', function(e) {
       if (window.localStorage.getItem('usuario') == null)
         $scope.irA('login');
@@ -15,7 +17,6 @@ angular.module('starter.controllers')
     });
 
     $ionicNavBarDelegate.showBackButton(false);
-
 
     $scope.opciones = [
       { title: 'Ver tickets', redireccion: 'app.tickets' },

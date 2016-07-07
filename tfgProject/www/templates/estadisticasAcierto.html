@@ -75,7 +75,7 @@
 
       <div class="linea infoRatio">
         <div class="selectLinea">
-          <select ng-init="inicializaSelectTorneo()" ng-change="cambiarTorneo(torneoSelect)" ng-model="torneoSelect" ng-options="prov.torneo for prov in torneos">
+          <select class="selectTorneo" ng-init="inicializaSelectTorneo()" ng-change="cambiarTorneo(torneoSelect)" ng-model="torneoSelect" ng-options="prov.torneo for prov in torneos">
             <!--<option ng-repeat="prov in proveedores" value="{{$index}}">{{prov.proveedor}}</option>-->
           </select>
         </div>

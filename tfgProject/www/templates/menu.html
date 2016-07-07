@@ -3,10 +3,11 @@
     <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
-
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
         </button>
+        <i class="navegacion button button-clear fa fa-home" ng-click="irA('app.inicio')"></i>
+        <i class="navegacion button button-clear fa fa-arrow-left" ng-click="volverAtras()"></i>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>

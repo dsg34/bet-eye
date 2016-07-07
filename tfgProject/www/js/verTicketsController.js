@@ -48,6 +48,7 @@ angular.module('starter.controllers')
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
         confirmButtonText: "Eliminar",
+        cancelButtonText: "Cancelar",
         closeOnConfirm: false
       }, function(){
         usSpinnerService.spin('spinner');

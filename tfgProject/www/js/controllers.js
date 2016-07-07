@@ -46,10 +46,37 @@ angular.module('starter.controllers', [])
 
     // Open the login modal
     $scope.login = function () {
-      window.localStorage.removeItem('token');
-      window.localStorage.removeItem('usuario');
-      $scope.irA("login");
+      swal({
+        title: "¿Cerrar sesión?",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Volver",
+        closeOnConfirm: false
+      }, function(){
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('usuario');
+        $scope.irA("login");
+      });
     };
+
+    $scope.volverAtras = function(){
+      console.log($state.current);
+      switch($state.current.name){
+        case 'app.inicio': $scope.login(); break;
+
+        case 'app.estadisticas': $scope.irA('app.inicio');break;
+        case 'app.tickets': $scope.irA('app.inicio');break;
+        case 'app.editar': $scope.irA('app.inicio');break;
+        case 'app.insertar': $scope.irA('app.inicio');break;
+        case 'app.escanear': $scope.irA('app.inicio');break;
+
+        case 'app.detalleTicket': $scope.irA('app.tickets');break;
+
+        case 'app.economia': $scope.irA('app.estadisticas');break;
+        case 'app.acierto': $scope.irA('app.estadisticas');break;
+      }
+    }
 
     // Perform the login action when the user submits the login form
     $scope.doLogin = function () {

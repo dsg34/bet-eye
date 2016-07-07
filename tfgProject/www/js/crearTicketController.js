@@ -72,7 +72,7 @@ angular.module('starter.controllers')
           $scope.ticket.nombre = $scope.devuelveFecha();
         }
 
-        if(precio!="" && precio!=null){
+        if(proveedor!="" && proveedor!=null){
           $scope.ticket.proveedor = removeDiacritics(proveedor.toUpperCase());
         }else{
           $scope.ticket.proveedor = "SIN PROVEEDOR";
