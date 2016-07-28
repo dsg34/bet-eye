@@ -21,18 +21,33 @@ angular.module('starter.controllers')
       response.success(function(data){
         usSpinnerService.stop('spinner');
         console.log(data);
-        $scope.invertido = data.datos.totalGastado;
-        $scope.ganado = data.datos.totalGanado;
-        $scope.enJuego = data.datos.dineroEnJuego;
-        $scope.ratio = data.datos.ratio;
+        if(data.estado==true) {
+          $scope.invertido = data.datos.totalGastado;
+          $scope.ganado = data.datos.totalGanado;
+          $scope.enJuego = data.datos.dineroEnJuego;
+          $scope.ratio = data.datos.ratio;
 
-        $scope.proveedores = data.datos.porProveedor;
-        $scope.proveedores.sort(compareRatio);
+          $scope.proveedores = data.datos.porProveedor;
+          $scope.proveedores.sort(compareRatio);
 
-        $scope.proveedorActual = $scope.proveedores[0];
+          $scope.proveedorActual = $scope.proveedores[0];
 
-        $scope.cambiarGrafico();
-        $scope.cambiarGrafico2();
+          $scope.cambiarGrafico();
+          $scope.cambiarGrafico2();
+        }else{
+          swal(
+            {
+              title: "Aún no hay estadísticas de ningún ticket.",
+              text: "Volviendo al menú de inicio...",
+              type: 'info',
+              timer: 2500,
+              showConfirmButton: false
+            }, function () {
+              swal.close();
+              $state.go('app.inicio', {ticketId: data._id});
+            }
+          );
+        }
       });
 
     });

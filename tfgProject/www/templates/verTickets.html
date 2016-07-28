@@ -14,8 +14,8 @@
           <span>{{formatearFecha(ticket.fecha)}}</span>
         </div>
         <div class="datosDinero">
-          <span>{{ticket.importe}} €</span>
-          <span>{{ticket.premio}} €</span>
+          <div><span>{{ticket.importe | number:2 }} </span><img width="30px" src="../images/monedaPerdido.png" /></div>
+          <div><span>{{ticket.premio | number:2}} </span><img width="30px" src="../images/monedaGanado.png" /></div>
         </div>
       </ion-item>
     </ion-list>

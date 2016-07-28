@@ -20,29 +20,44 @@ angular.module('starter.controllers')
       response.success(function(data){
         usSpinnerService.stop('spinner');
         console.log(data);
-        $scope.proveedores = data.datos.porProveedor;
-        $scope.torneos = data.datos.porTorneo;
+        if(data.estado==true) {
+          $scope.proveedores = data.datos.porProveedor;
+          $scope.torneos = data.datos.porTorneo;
 
-        $scope.proveedores.sort(comparePorcentaje);
-        $scope.torneos.sort(comparePorcentajeTorneo);
+          $scope.proveedores.sort(comparePorcentaje);
+          $scope.torneos.sort(comparePorcentajeTorneo);
 
-        console.log($scope.proveedores);
+          console.log($scope.proveedores);
 
-        $scope.proveedorActual = $scope.proveedores[0];
-        $scope.torneoActual = $scope.torneos[0];
+          $scope.proveedorActual = $scope.proveedores[0];
+          $scope.torneoActual = $scope.torneos[0];
 
-        $scope.totalTickets = data.datos.numTickets;
-        $scope.ticketsFallados = data.datos.numTicketsFallados;
+          $scope.totalTickets = data.datos.numTickets;
+          $scope.ticketsFallados = data.datos.numTicketsFallados;
 
-        $scope.totalEventos = data.datos.numEventos;
-        $scope.eventosFallados = data.datos.eventosFallados;
+          $scope.totalEventos = data.datos.numEventos;
+          $scope.eventosFallados = data.datos.eventosFallados;
 
-        $scope.aciertoMedio = data.datos.porcentajeMedioAcierto;
+          $scope.aciertoMedio = data.datos.porcentajeMedioAcierto;
 
-        $scope.infoGeneral = data.datos;
+          $scope.infoGeneral = data.datos;
 
-        $scope.cambiarGrafico1();
-        $scope.cambiarGrafico2();
+          $scope.cambiarGrafico1();
+          $scope.cambiarGrafico2();
+        }else{
+          swal(
+            {
+              title: "Aún no hay estadísticas de ningún ticket.",
+              text: "Volviendo al menú de inicio...",
+              type: 'info',
+              timer: 2500,
+              showConfirmButton: false
+            }, function () {
+              swal.close();
+              $state.go('app.inicio', {ticketId: data._id});
+            }
+          );
+        }
       });
     });
 

@@ -5,10 +5,10 @@
       <ion-item class="menuTickets noPaddingTop" ng-repeat="evento in datosTicket.eventos">
         <div class="datosTicket">
           <div>
-            {{evento.equipo1}} - {{evento.equipo2}}
+            {{evento.equipo1}} <b>-</b> {{evento.equipo2}}
           </div>
           <div>
-            <span ng-if="evento.tipo!=null">{{evento.tipo}} - </span>
+            <span ng-if="evento.tipo!=null">{{evento.tipo}} <b>-</b> </span>
             <span>{{evento.resultado}}</span>
           </div>
           <div ng-if="evento.cuota!=null">{{evento.cuota}}€</div>
@@ -34,8 +34,8 @@
           </span>
        </div>
       </ion-item>
-      <ion-item>Importe apostado: {{datosTicket.importe}} €</ion-item>
-      <ion-item>Premio: {{datosTicket.premio}} €</ion-item>
+      <ion-item>Importe apostado: {{datosTicket.importe | number:2 }} €</ion-item>
+      <ion-item>Premio: {{datosTicket.premio | number:2}} €</ion-item>
     </ion-list>
   </ion-content>
   <div class="backgroundPopup" ng-show="mostrarPopup">

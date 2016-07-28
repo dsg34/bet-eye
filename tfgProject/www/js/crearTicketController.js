@@ -56,12 +56,38 @@ angular.module('starter.controllers')
       $scope.eventos.splice(indice, 1);
     }
 
+    var automatico=false;
+    var cuotaPorEuro=0;
+
     $scope.siguiente = function(){
       if($scope.eventos.length>0) {
         $scope.mostrarPopup = true;
+        var premio = 0;
+        for(var t=0; t<$scope.eventos.length; t++){
+          if(premio!=-1 && $scope.eventos[t].cuota!=null)
+            premio += $scope.eventos[t].cuota;
+          else
+            premio=-1;
+        }
+        if(premio!=-1) {
+          $scope.importeTicket = 1;
+          $scope.premioTicket = premio;
+          automatico=true;
+          cuotaPorEuro=premio;
+        }
       }else{
         swal("¡Ups!", "No has añadido ningún evento al ticket.", "warning")
       }
+    }
+
+    $scope.cambiarPremio = function(importe){
+      if(automatico == true && importe!=""){
+        $scope.premioTicket = importe*cuotaPorEuro;
+      }
+    }
+
+    $scope.eliminarAutomatico = function(){
+      automatico=false;
     }
 
     $scope.guardarTicket = function(nombre, proveedor, importe, premio){

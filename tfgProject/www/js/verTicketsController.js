@@ -15,11 +15,26 @@ angular.module('starter.controllers')
         usSpinnerService.spin('spinner');
         var response = $http.post('http://eyebetapi.herokuapp.com/api/tickets/filtrarPorUsuario', {usuario: window.localStorage.getItem('usuario')});
         response.success(function (data) {
+          console.log(window.localStorage.getItem('usuario'));
           usSpinnerService.stop('spinner');
           $scope.tickets = data.tickets;
-          console.log($scope.tickets);
-          for(var i=0; i<$scope.tickets.length; i++){
-            $scope.comprobarEstadoTicket(i);
+          if($scope.tickets.length==0){
+            swal(
+              {
+                title: "Aún no has almacenado ningún ticket.",
+                text: "Volviendo al menú de inicio...",
+                type: 'info',
+                timer: 2500,
+                showConfirmButton: false
+              }, function () {
+                swal.close();
+                $state.go('app.inicio', {ticketId: data._id});
+              }
+            );
+          }else{
+            for(var i=0; i<$scope.tickets.length; i++){
+              $scope.comprobarEstadoTicket(i);
+            }
           }
         });
       }

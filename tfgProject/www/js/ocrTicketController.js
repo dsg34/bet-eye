@@ -3,7 +3,7 @@
  */
 angular.module('starter.controllers')
 
-  .controller('OcrCtrl', function($scope, $http, $ionicModal, $timeout, $cookies, $ionicNavBarDelegate, $cordovaCamera, $state, $document, usSpinnerService) {
+  .controller('OcrCtrl', function($scope, $http, $ionicModal, $timeout, $compile, $cookies, $ionicNavBarDelegate, $cordovaCamera, $state, $document, usSpinnerService) {
     $scope.irA = function(estado){
       $state.transitionTo(estado);
     }
@@ -35,6 +35,7 @@ angular.module('starter.controllers')
       });
     });
 
+    $scope.contenidoTicket = [];
     $scope.imgURI = "";
     $scope.fichero = "";
 
@@ -56,10 +57,11 @@ angular.module('starter.controllers')
 
     $scope.ticket = {};
 
+    $scope.proveedorTicket = "Sin proveedor";
+
     var numLineas = 0;
 
     $scope.capturarTexto = function(){
-      console.log("Poh vamo a ver que");
       if(cacheThreshold==$scope.threshold){
         $scope.mostrarPopup = true;
       }else{
@@ -83,14 +85,12 @@ angular.module('starter.controllers')
             textoTicket = d;
             numLineas = 0;
             var array = d.text.split('\n');
+            $scope.contenidoTicket = array;
             var texto = "";
-            /*
-             var texto = "<h2>Líneas del ticket</h2>";
-             texto += "<p><i ng-click='mostrarAyuda()' class='ayuda fa fa-question-circle'></i></p>";
-             */
+
             for(var i=0; i<array.length; i++){
               if(array[i]!="") {
-                texto += '<select id="selLinea'+numLineas+'" name="sel'+numLineas+'">' +
+                texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
                   '<option value="des">Línea desechable</option>' +
                   '<option value="evento">Evento</option>' +
                   '<option value="resultado">Resultado</option>' +
@@ -101,13 +101,35 @@ angular.module('starter.controllers')
                   '<option value="premio">Premio</option>' +
                   '</select>';
 
-                texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+                if(i>0)
+                  texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+                else
+                  texto+= "<div class='ocupaEspacio'></div>";
+
+                texto += '<input ng-blur="cambiarContenidoTicket('+i+')" type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+
                 numLineas++;
               }
             }
             usSpinnerService.stop('spinner');
-            $scope.mostrarTexto(texto);
+            var temp = $compile(texto)($scope);
+            $scope.mostrarTexto(temp);
           } );
+      }
+    }
+
+    $scope.sumarLinea = function(i){
+      console.log("Suma");
+      var indice = parseInt(i);
+      if(indice!=0) {
+        console.log("Alla vamos");
+        var contenidoLinea = $scope.contenidoTicket[indice];
+        $scope.contenidoTicket[indice - 1] = $scope.contenidoTicket[indice - 1]+ " " +contenidoLinea;
+        console.log($scope.contenidoTicket);
+        $scope.contenidoTicket.splice(indice, 1);
+        console.log($scope.contenidoTicket);
+        numLineas--;
+        $scope.cambiarProveedor($scope.proveedorTicket);
       }
     }
 
@@ -119,7 +141,6 @@ angular.module('starter.controllers')
     }
 
     $scope.reset = function(){
-      console.log($scope.mostrando);
       if(!$scope.$$phase) {
         $scope.$apply(function() {
           $scope.mostrando = true;
@@ -127,8 +148,6 @@ angular.module('starter.controllers')
       }else{
         $scope.mostrando = true;
       }
-
-      console.log($scope.mostrando);
 
       var c = document.getElementById("canvasAux");
       var ctx = c.getContext("2d");
@@ -205,9 +224,215 @@ angular.module('starter.controllers')
       });
     }
 
-    $scope.mostrarTexto = function(texto){
-      document.getElementById("popContenido").innerHTML = texto;
+    $scope.cambiarTextoSinProveedor = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+      /*
+       var texto = "<h2>Líneas del ticket</h2>";
+       texto += "<p><i ng-click='mostrarAyuda()' class='ayuda fa fa-question-circle'></i></p>";
+       */
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="evento">Evento</option>' +
+            '<option value="resultado">Resultado</option>' +
+            '<option value="tipo_resultado">Tipo/Resultado</option>' +
+            '<option value="cuota">Cuota</option>' +
+            '<option value="hora_evento">Fecha/Hora evento</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
 
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+
+    $scope.cambiarTextoReta = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="linea_reta">Línea de evento</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
+
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+    $scope.cambiarTextoBwin = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="linea_reta">Línea de evento</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
+
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+    $scope.cambiarTextoCodere = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="evento">Línea de evento</option>' +
+            '<option value="tipo_resultado">Tipo de apuesta, resultado y cuota</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
+
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+    $scope.cambiarTextoSportium = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="linea_reta">Línea de evento</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
+
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+    $scope.cambiarTextoJuegging = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="linea_reta">Línea de evento</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
+
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+    $scope.cambiarTextoLuckia = function(){
+      var array = $scope.contenidoTicket;
+      numLineas = 0;
+      var texto = "";
+
+      for(var i=0; i<array.length; i++){
+        if(array[i]!="") {
+          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+            '<option value="des">Línea desechable</option>' +
+            '<option value="evento">Línea de evento</option>' +
+            '<option value="tipo_resultado">Tipo de apuesta, resultado y cuota</option>' +
+            '<option value="importe">Importe apostado</option>' +
+            '<option value="premio">Premio</option>' +
+            '</select>';
+
+          if(i>0)
+            texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
+          else
+            texto+= "<div class='ocupaEspacio'></div>";
+
+          texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
+          numLineas++;
+        }
+      }
+      var temp = $compile(texto)($scope);
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(temp);
+    }
+
+    $scope.mostrarTexto = function(texto){
+      document.getElementById("popContenido").innerHTML = "";
+      angular.element(document.getElementById("popContenido")).append(texto);
       $scope.$apply(function() {
         $scope.mostrarPopup = true;
       });
@@ -237,17 +462,17 @@ angular.module('starter.controllers')
     }
 
     //Cambia el contenido del texto del popup para permitir al usuario almacenar el ticket
-    $scope.guardarTicket = function(n, p){
+    $scope.guardarTicket = function(n){
       if(n!="" && n!=null){
         $scope.ticket.nombre = n;
       }else{
         $scope.ticket.nombre = $scope.devuelveFecha();
       }
 
-      if(p!="" && p!=null){
-        $scope.ticket.proveedor = removeDiacritics(p.toUpperCase());
+      if($scope.proveedorTicket!="" && $scope.proveedorTicket!=null){
+        $scope.ticket.proveedor = removeDiacritics($scope.proveedorTicket).toUpperCase();
       }else{
-        $scope.ticket.proveedor = "SIN PROVEEDOR";
+        $scope.ticket.proveedor = "Sin proveedor";
       }
 
       $scope.ticket.usuario = window.localStorage.getItem('usuario');
@@ -256,18 +481,23 @@ angular.module('starter.controllers')
       usSpinnerService.spin('spinner');
       response.success(function (data) {
         usSpinnerService.stop('spinner');
-        swal(
-          {
-            title: "¡Ticket guardado!",
-            text: "Su ticket ha sido almacenado correctamente.",
-            type: 'success',
-            timer: 2500,
-            showConfirmButton: false
-          }, function(){
-            swal.close();
-            $state.go('app.detalleTicket', {ticketId: data._id});
-          }
-        );
+        if(data.estado==null) {
+          swal(
+            {
+              title: "¡Ticket guardado!",
+              text: "Su ticket ha sido almacenado correctamente.",
+              type: 'success',
+              timer: 2500,
+              showConfirmButton: false
+            }, function () {
+              swal.close();
+              $state.go('app.detalleTicket', {ticketId: data._id});
+            }
+          );
+        }else{
+          swal("Error", "Se produjo un error almacenando el ticket. Inténtelo más tarde.", "error");
+          console.log(data.error);
+        }
       });
     }
 
@@ -391,6 +621,11 @@ angular.module('starter.controllers')
           case "hora_evento": evento.hora = linea; break;
           case "importe": ticket.importe = parseFloat(tratarDinero(linea).replace(',', '.')); break;
           case "premio": ticket.premio = parseFloat(tratarDinero(linea).replace(',', '.')); break;
+          case "linea_reta":
+            evento = tratarLineaEventoReta(linea);
+            contEvento++;
+
+
           default: break;
         }
       }
@@ -444,19 +679,16 @@ angular.module('starter.controllers')
 
       arrayEquipos = linea.split('@');
       if(arrayEquipos.length == 1){
-        arrayEquipos = linea.split('(');
+        arrayEquipos = linea.split('—');
         if(arrayEquipos.length == 1){
-          arrayEquipos = linea.split('—');
+          arrayEquipos = linea.split('-');
           if(arrayEquipos.length == 1){
-            arrayEquipos = linea.split('-');
+            arrayEquipos = linea.split('>');
             if(arrayEquipos.length == 1){
-              arrayEquipos = linea.split('>');
-              if(arrayEquipos.length == 1){
-                arrayEquipos = linea.split('»');
-              }
-              if(arrayEquipos.length == 1){
-                arrayEquipos = linea;
-              }
+              arrayEquipos = linea.split('»');
+            }
+            if(arrayEquipos.length == 1){
+              arrayEquipos = linea;
             }
           }
         }
@@ -483,6 +715,27 @@ angular.module('starter.controllers')
       devuelve = devuelve.replace(/[^0-9.,]/g, "");
       devuelve = eliminarEspacios(devuelve);
 
+      devuelve = tratarPrecioReta(devuelve);
+      console.log(devuelve);
+      return devuelve;
+    }
+
+    function tratarPrecioReta(linea){
+      while(isNaN(parseInt(linea[0]))){
+        linea = linea.slice(1,linea.length);
+      }
+      return linea;
+    }
+
+    function tratarLineaEventoReta(linea){
+      var arrayAux = linea.split('/');
+      var devuelve = {};
+      var arrayEquipos = arrayAux[0].split('-');
+      devuelve.equipo1 = eliminarEspacios(arrayEquipos[0]).toUpperCase();
+      devuelve.equipo2 = eliminarEspacios(arrayEquipos[1]).toUpperCase();
+      devuelve.tipo = eliminarEspacios(arrayAux[1]);
+      devuelve.resultado = eliminarEspacios(arrayAux[2]);
+      devuelve.cuota = parseFloat(eliminarEspacios(arrayAux[3]));
       return devuelve;
     }
 
@@ -500,10 +753,21 @@ angular.module('starter.controllers')
       return palabra;
     }
 
-    function equipararTiposDeApuesta(tipo){
-      switch(removeDiacritics(tipo)){
-
+    $scope.cambiarProveedor = function(p){
+      $scope.proveedorTicket = p;
+      switch(p){
+        case "Sin proveedor": $scope.cambiarTextoSinProveedor();break;
+        case "Luckia": $scope.cambiarTextoLuckia();break;
+        case "Codere": $scope.cambiarTextoCodere();break;
+        case "Sportium": $scope.cambiarTextoSportium();break;
+        case "Reta": $scope.cambiarTextoReta();break;
+        case "Juegging": $scope.cambiarTextoJuegging();break;
+        case "Bwin": $scope.cambiarTextoBwin();break;
       }
+    }
+
+    $scope.cambiarContenidoTicket = function(indice){
+      $scope.contenidoTicket[parseInt(indice)] = document.getElementById("linea"+indice).value;
     }
 
     document.getElementById("fichero").onchange = function(){
