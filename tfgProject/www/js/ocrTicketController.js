@@ -93,8 +93,8 @@ angular.module('starter.controllers')
                 texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
                   '<option value="des">Línea desechable</option>' +
                   '<option value="evento">Evento</option>' +
-                  '<option value="resultado">Resultado</option>' +
-                  '<option value="tipo_resultado">Tipo/Resultado</option>' +
+                  '<option value="resultado">Pronóstico</option>' +
+                  '<option value="tipo_resultado">Tipo/Pronóstico</option>' +
                   '<option value="cuota">Cuota</option>' +
                   '<option value="hora_evento">Fecha/Hora evento</option>' +
                   '<option value="importe">Importe apostado</option>' +
@@ -237,8 +237,8 @@ angular.module('starter.controllers')
           texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Evento</option>' +
-            '<option value="resultado">Resultado</option>' +
-            '<option value="tipo_resultado">Tipo/Resultado</option>' +
+            '<option value="resultado">Pronóstico</option>' +
+            '<option value="tipo_resultado">Tipo/Pronóstico</option>' +
             '<option value="cuota">Cuota</option>' +
             '<option value="hora_evento">Fecha/Hora evento</option>' +
             '<option value="importe">Importe apostado</option>' +
@@ -326,7 +326,7 @@ angular.module('starter.controllers')
           texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Línea de evento</option>' +
-            '<option value="tipo_resultado">Tipo de apuesta, resultado y cuota</option>' +
+            '<option value="tipo_resultado">Tipo de apuesta, Pronóstico y cuota</option>' +
             '<option value="importe">Importe apostado</option>' +
             '<option value="premio">Premio</option>' +
             '</select>';
@@ -354,7 +354,8 @@ angular.module('starter.controllers')
         if(array[i]!="") {
           texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
-            '<option value="linea_reta">Línea de evento</option>' +
+            '<option value="evento">Línea de evento</option>' +
+            '<option value="tipo_resultado_Sportium">Tipo de apuesta, Pronóstico y cuota</option>' +
             '<option value="importe">Importe apostado</option>' +
             '<option value="premio">Premio</option>' +
             '</select>';
@@ -382,7 +383,10 @@ angular.module('starter.controllers')
         if(array[i]!="") {
           texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
-            '<option value="linea_reta">Línea de evento</option>' +
+            '<option value="eventoJuegging">Evento</option>' +
+            '<option value="tipoJuegging">Tipo de apuesta</option>' +
+            '<option value="resultadoJuegging">Pronóstico</option>' +
+            '<option value="cuotaJuegging">Cuota</option>' +
             '<option value="importe">Importe apostado</option>' +
             '<option value="premio">Premio</option>' +
             '</select>';
@@ -411,7 +415,7 @@ angular.module('starter.controllers')
           texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Línea de evento</option>' +
-            '<option value="tipo_resultado">Tipo de apuesta, resultado y cuota</option>' +
+            '<option value="tipo_resultado">Tipo de apuesta, Pronóstico y cuota</option>' +
             '<option value="importe">Importe apostado</option>' +
             '<option value="premio">Premio</option>' +
             '</select>';
@@ -490,6 +494,7 @@ angular.module('starter.controllers')
               timer: 2500,
               showConfirmButton: false
             }, function () {
+              $scope.reiniciar();
               swal.close();
               $state.go('app.detalleTicket', {ticketId: data._id});
             }
@@ -618,13 +623,52 @@ angular.module('starter.controllers')
             }
 
             break;
+          case "tipo_resultado_Sportium":
+            var array = tratarResultadoSportium(linea);
+
+            if(array.length==1){//Resultado
+              evento.resultado = eliminarEspacios(array[0]);
+            }else if(array.length==2){//tipo y resultado
+              evento.tipo = eliminarEspacios(array[0]);
+              evento.resultado = eliminarEspacios(array[1]);
+            }else if(array.length==3){//Tipo, resultado y cuota
+              evento.tipo = eliminarEspacios(array[0]);
+              evento.resultado = eliminarEspacios(array[1]);
+              evento.cuota = parseFloat(tratarDinero(array[2]).replace(')', '').replace(',', '.'));
+            }
+
+            break;
           case "hora_evento": evento.hora = linea; break;
           case "importe": ticket.importe = parseFloat(tratarDinero(linea).replace(',', '.')); break;
           case "premio": ticket.premio = parseFloat(tratarDinero(linea).replace(',', '.')); break;
           case "linea_reta":
             evento = tratarLineaEventoReta(linea);
             contEvento++;
+            break;
+          case "eventoJuegging":
+            if(contEvento!=0) {
+              arrayEventos.push(evento);
+              evento = {};
+            }
+            var equipos = tratarEvento(eliminarEtiquetaJuegging(linea));
+            for(var j=0; j<equipos.length; j++){
+              switch(j){
+                case 0: evento.equipo1 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 1: evento.equipo2 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 2: evento.equipo3 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 3: evento.equipo4 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 4: evento.equipo5 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                case 5: evento.equipo6 = eliminarEspacios(equipos[j]).toUpperCase(); break;
+                default: evento.equipox = eliminarEspacios(equipos[j]).toUpperCase(); break;
+              }
+            }
+            contEvento++;
+            evento.texto = linea;
+            break;
 
+          case "tipoJuegging": evento.tipo=eliminarEspacios(eliminarEtiquetaJuegging(linea));break;
+          case "resultadoJuegging": evento.resultado=eliminarEspacios(eliminarEtiquetaJuegging(linea));break;
+          case "cuotaJuegging": parseFloat(tratarDinero(linea).replace(')', '').replace(',', '.'));
 
           default: break;
         }
@@ -662,6 +706,79 @@ angular.module('starter.controllers')
               }
             }
           }
+        }
+      }
+      return arrayEquipos;
+    }
+
+    function eliminarEtiquetaJuegging(linea){
+      var eliminadoDoblePunto = false;
+      while(eliminadoDoblePunto==false){
+        if(linea[0]==':')
+          eliminadoDoblePunto=true;
+        linea = linea.slice(1,linea.length);
+      }
+      return linea;
+    }
+
+    function tratarEvento(linea){
+      var arrayEquipos = linea.split('—');
+      if(arrayEquipos.length == 1){
+        arrayEquipos = linea.split('-');
+        if(arrayEquipos.length == 1){
+          arrayEquipos = linea.split('/');
+          if(arrayEquipos.length == 1){
+            arrayEquipos = linea.split('<');
+            if(arrayEquipos.length == 1){
+              arrayEquipos = linea.split('>');
+              if(arrayEquipos.length == 1){
+                arrayEquipos = linea.split('»');
+              }
+              if(arrayEquipos.length == 1){
+                arrayEquipos = linea;
+              }
+            }
+          }
+        }
+      }
+      return arrayEquipos;
+    }
+
+    function tratarResultadoSportium(linea){
+      //División para quedarse con la cuota, en caso de que este
+      var arrayEquipos = [];
+      arrayEquipos = linea.split('@');
+      var cuota = "";
+      if(arrayEquipos.length>1){
+        cuota=arrayEquipos[1];
+        linea=arrayEquipos[0];
+      }
+
+      arrayEquipos = linea.split('@');
+      if(arrayEquipos.length == 1){
+        arrayEquipos = linea.split('—');
+        if(arrayEquipos.length == 1){
+          arrayEquipos = linea.split('-');
+          if(arrayEquipos.length == 1){
+            arrayEquipos = linea.split('>');
+            if(arrayEquipos.length == 1){
+              arrayEquipos = linea.split('»');
+            }
+            if(arrayEquipos.length == 1){
+              arrayEquipos = linea;
+            }
+          }
+        }
+      }
+
+      if(cuota!="" && cuota!=null){
+        console.log(typeof(arrayEquipos));
+        console.log(arrayEquipos);
+        if(typeof(arrayEquipos)=="string"){
+          var aux = String(arrayEquipos);
+          arrayEquipos = [aux, cuota];
+        }else{
+          arrayEquipos.push(cuota);
         }
       }
       return arrayEquipos;

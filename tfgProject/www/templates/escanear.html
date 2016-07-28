@@ -75,24 +75,34 @@
             <span class='spanPrin'>Para que analicemos correctamente tu boleto de <b>{{proveedorTicket}}</b>, debes:</span> <br /><br />
             <span class='spanSec'><b>-</b>Corregir los errores que se hayan producido</span>
             <span class='spanSec'><b>-</b>Indicar el tipo de contenido de cada línea de la lista desplegable</span>
+            <span class='spanSec'><b>-</b>Si el contenido de algún tipo de dato está en dos líneas distintas, usa el botón verde de unión de líneas para juntarlas.</span>
             <span class='spanSec'><b>-</b>En la línea de 'Cuota' y 'Premio', asegurarse de que el único valor numérico existente es la cifra que queremos almacenar.</span>
             <!-- SIN PROVEEDOR -->
             <div ng-if="proveedorTicket=='Sin proveedor'">
               <span class='spanSec'><b>-</b>Dejar los eventos en el formato <b>Equipo1 - Equipo2</b>. Ej.: Real Madrid-F.C. Barcelona</span>
-              <span class='spanSec'><b>-</b>Dejar sólo los resultados de evento en las líneas que correspondan a estos. Ej.: <b>1X</b> o <b>Empate</b>. En caso de que también se desee analizar la cuota del evento, encerrar entre paréntesis. Ej.: <b>1X (1.80)</b></span>
-              <span class='spanSec'><b>-</b>Si la línea de resultado incluye también tipo de evento (<b>1X2</b>, <b>Marcador exacto</b>, etc) separar del resto de igual forma mediante '@'. Ej.: <b>Marcador exacto @ 2:0 (1.80)</b></span>
+              <span class='spanSec'><b>-</b>Dejar sólo los pronósticos de evento en las líneas que correspondan a estos. Ej.: <b>1X</b> o <b>Empate</b>. En caso de que también se desee analizar la cuota del evento, encerrar entre paréntesis. Ej.: <b>1X (1.80)</b></span>
+              <span class='spanSec'><b>-</b>Si la línea de pronóstico incluye también tipo de evento (<b>1X2</b>, <b>Marcador exacto</b>, etc) separar del resto de igual forma mediante '@'. Ej.: <b>Marcador exacto @ 2:0 (1.80)</b></span>
             </div>
             <!-- CODERE -->
             <div ng-if="proveedorTicket=='Codere'">
-              <span class='spanSec'><b>-</b>En las línea de tipo de apuesta, resultado y cuota, añadir un guión de separación entre resultado y cuota.</span>
+              <span class='spanSec'><b>-</b>En las línea de tipo de apuesta, pronóstico y cuota, añadir un guión de separación entre pronóstico y cuota.</span>
+            </div>
+            <!-- JUEGGING -->
+            <div ng-if="proveedorTicket=='Juegging'">
+              <span class='spanSec'><b>-</b>Asegúrate de que las líneas de datos están completas. Si algún dato está en la línea siguiente, usa el botón verde de unión de líneas para unirla a la línea anterior.</b></span>
             </div>
             <!-- LUCKIA -->
             <div ng-if="proveedorTicket=='Luckia'">
-              <span class='spanSec'><b>-</b>En las línea de tipo de apuesta, resultado y cuota, eliminar la fecha y a hora, añadir un guión de separación entre tipo de apuesta y resultado y asegurarse de que la cuota está encerrada entre paréntesis.</span>
+              <span class='spanSec'><b>-</b>En las línea de tipo de apuesta, pronóstico y cuota, eliminar la fecha y a hora, añadir un guión de separación entre tipo de apuesta y pronóstico y asegurarse de que la cuota está encerrada entre paréntesis.</span>
             </div>
             <!-- RETA -->
             <div ng-if="proveedorTicket=='Reta'">
               <span class='spanSec'><b>-</b>En las líneas de evento, eliminar la fecha que aparece tras el nombre de los equipos que se enfrentan en el evento.</span>
+            </div>
+            <!-- SPORTIUM -->
+            <div ng-if="proveedorTicket=='Sportium'">
+              <span class='spanSec'><b>-</b>En las líneas de evento, eliminar la parte en la que se especifica el deporte y torneo y el pronóstico del partido (si aparece). Debe quedar en el formato: <b>Equipo1 - Equipo2</b></span>
+              <span class='spanSec'><b>-</b>En las línea de tipo de apuesta, pronóstico y cuota, eliminar la fecha y a hora, añadir un guión de separación entre tipo de apuesta y pronóstico.</span>
             </div>
           </div>
         </div>

@@ -48,7 +48,7 @@ angular.module('starter.controllers')
           cuota: ""
         }
       }else{
-        swal("¡Datos incompletos!", "Debes rellenar, al menos, los datos: equipo1, equipo2 y resultado", 'error');
+        swal("¡Datos incompletos!", "Debes rellenar, al menos, los datos: equipo1, equipo2 y Pronóstico", 'error');
       }
     }
 
