@@ -1,11 +1,11 @@
 <ion-view>
   <ion-content>
-    <h1 class="titulo">Escanear</h1>
-    <button class="button button-full button-assertive" ng-show="mostrando === false" ng-click="tomarFoto()">
+    <h1 class="titulo">Escanear <i ng-click='mostrarInfoEscanear()' class='ayuda fa fa-question-circle'></i></h1>
+    <button class="button button-full button-assertive menuInicio" ng-show="mostrando === false" ng-click="tomarFoto()">
       Escanear Ticket
     </button>
-    <button class="button button-full button-assertive" ng-show="mostrando === false" ng-click="choosePhoto()">
-      Elegir foto
+    <button class="button button-full button-assertive menuInicio" ng-show="mostrando === false" ng-click="choosePhoto()">
+      Buscar imagen en almacenamiento
     </button>
 
     <input id="fichero" ng-show="mostrando === false" type="file"/>
@@ -107,6 +107,22 @@
           </div>
         </div>
         <button id="volverTicket2" class="cancelar" ng-click="volverATicket()">Volver</button>
+      </div>
+    </div>
+    <div class="backgroundPopup" ng-show="mostrarPopup4">
+      <div class="popup" ng-show="mostrarPopup4">
+        <h2>Información</h2>
+        <div id="popContenido4">
+          <div style='text-align:left;'>
+            <span class='spanPrin'>Para obtener la información de tu ticket desde la cámara, pulsa el botón 'Escanear Ticket'. Si ya tienes almacenada en tu dispositivo la imagen, pulsa 'Buscar imagen en almacenamiento'.</span><br /><br />
+            <span class='spanPrin'>Trata de tomar la fotografía con luz suficiente y uniforme por todo el ticket. Una vez echada, recórtala para que sólo contenga la información que queremos leer (eventos, importe apostado, premio, etc).</span><br /><br />
+            <span class='spanPrin'>Una vez tengas la imagen, pulsa 'Aplicar binarización' para convertir la imagen a blanco y negro, lo cuál ayudará a aumentar el contraste y leer el ticket. Elige un umbral en el que el texto sea legible.</span><br /><br />
+            <span class='spanPrin'>Cuando la imagen ya esté preparada, pulsa 'Leer imagen' para que nuestro sistema obtenga la información del ticket. </span><br /><br />
+            <span class='spanPrin'>Una vez el sistema haya leído el boleto, aparecerá una pantalla emergente en la que podrás realizar un mapeado de la información del ticket para que podamos almacenarla y procesarla.</span><br /><br />
+            <span class='spanPrin'>Tras mapear el ticket, ponle un nombre y ¡voilà! Puedes empezar a controlar su estado en tiempo real.</span><br /><br />
+          </div>
+        </div>
+        <button id="volver" class="cancelar" ng-click="mostrarInfoEscanear()">Volver</button>
       </div>
     </div>
   </ion-content>

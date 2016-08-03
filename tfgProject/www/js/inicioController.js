@@ -19,9 +19,9 @@ angular.module('starter.controllers')
     $ionicNavBarDelegate.showBackButton(false);
 
     $scope.opciones = [
-      { title: 'Ver tickets', redireccion: 'app.tickets' },
-      { title: 'Escanear nuevo ticket', redireccion: 'app.escanear' },
-      { title: 'Crear ticket manual', redireccion: 'app.insertar' },
-      { title: 'Ver estadísticas', redireccion: 'app.estadisticas' },
+      { title: 'Ver tickets', icono: 'file-text-o', redireccion: 'app.tickets' },
+      { title: 'Escanear nuevo ticket', icono: 'camera', redireccion: 'app.escanear' },
+      { title: 'Crear ticket manual', icono: 'pencil-square-o', redireccion: 'app.insertar' },
+      { title: 'Ver estadísticas', icono: 'pie-chart', redireccion: 'app.estadisticas' },
     ];
   });

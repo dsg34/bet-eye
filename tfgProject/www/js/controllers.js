@@ -56,6 +56,7 @@ angular.module('starter.controllers', [])
       }, function(){
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('usuario');
+        swal.close();
         $scope.irA("login");
       });
     };

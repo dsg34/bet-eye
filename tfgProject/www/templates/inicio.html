@@ -3,8 +3,10 @@
     <h1 class="titulo"> Inicio </h1>
     <ion-list id="contenedorMenus">
       <ion-item class="menuInicio" ng-repeat="opcion in opciones" ng-click="irA(opcion.redireccion)">
-        <div>{{opcion.title}}</div>
-        <div class="flaticon"></div>
+        <div class="contenedorInicio">
+          <span class="textoInicio">{{opcion.title}}</span>
+          <span class="iconoInicio"><i class="fa fa-{{opcion.icono}} fa-3x"></i></span>
+        </div>
       </ion-item>
     </ion-list>
     <!--

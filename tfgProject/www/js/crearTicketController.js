@@ -16,6 +16,8 @@ angular.module('starter.controllers')
 
       $scope.eventos = [];
 
+      $scope.proveedorTicket = "Sin proveedor";
+
       $scope.evento = {
         equipo1: "",
         equipo2: "",

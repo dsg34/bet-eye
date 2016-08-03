@@ -14,10 +14,10 @@
           <div ng-if="evento.cuota!=null">{{evento.cuota}}€</div>
         </div>
         <div class="estadoApuesta" ng-if="evento.errorEstado==null">
-          <div ng-click="mostrarEstadisticas(evento.estadoPartido.masInfo, evento.indice)">
-          <span class="datos min" ng-if="evento.estadoPartido!=null">{{evento.estadoPartido.minutoPartido}}</span>
-          <span class="datos hora" ng-if="evento.estadoPartido==null">{{evento.estadoPartido.horaComienzo}}</span>
-          <span class="estado res" ng-if="evento.estadoPartido.resultado!='vs'">{{evento.estadoPartido.resultado}}</span>
+          <div class="estadoEvento" ng-click="mostrarEstadisticas(evento.estadoPartido.masInfo, evento.indice)">
+            <span class="datos min" ng-if="evento.estadoPartido!=null">{{evento.estadoPartido.minutoPartido}}</span>
+            <span class="datos hora" ng-if="evento.estadoPartido==null">{{evento.estadoPartido.horaComienzo}}</span>
+            <span class="estado res" ng-if="evento.estadoPartido.resultado!='vs'">{{evento.estadoPartido.resultado}}</span>
           </div>
           <span class="acertado">
             <i class="fa fa-check-circle" ng-click="cambiarEstado(1, evento.indice)" ng-class="comprobarEstado(1, evento.estadoEvento)"></i>
@@ -34,8 +34,8 @@
           </span>
        </div>
       </ion-item>
-      <ion-item>Importe apostado: {{datosTicket.importe | number:2 }} €</ion-item>
-      <ion-item>Premio: {{datosTicket.premio | number:2}} €</ion-item>
+      <ion-item class="detalleImporte">Importe apostado: {{datosTicket.importe | number:2 }} €</ion-item>
+      <ion-item class="detallePremio">Premio: {{datosTicket.premio | number:2}} €</ion-item>
     </ion-list>
   </ion-content>
   <div class="backgroundPopup" ng-show="mostrarPopup">

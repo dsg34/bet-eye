@@ -35,7 +35,16 @@
         <p style="font-weight: bold;">Nombre del ticket</p>
         <input id="nombreTicket" name="nombreTicket" type="text" ng-model="nombreTicket"/>
         <p style="font-weight: bold;">Casa de apuestas</p>
-        <input id="proveedorTicket" name="proveedorTicket" type="text" ng-model="proveedorTicket"/>
+        <!--<input id="proveedorTicket" name="proveedorTicket" type="text" ng-model="proveedorTicket"/>-->
+        <select style="border:1px solid #d7d7d7;font-weight: normal;" ng-model="proveedorTicket">
+          <option value="Sin proveedor">Sin proveedor</option>
+          <option value="Bwin">Bwin</option>
+          <option value="Codere">Codere</option>
+          <option value="Juegging">Juegging</option>
+          <option value="Luckia">Luckia</option>
+          <option value="Reta">Reta</option>
+          <option value="Sportium">Sportium</option>
+        </select>
         <p style="font-weight: bold;">Importe apostado</p>
         <input id="importeTicket" name="importeTicket" ng-change="cambiarPremio(importeTicket)" type="number" ng-model="importeTicket"/> €
         <p style="font-weight: bold;">Premio</p>

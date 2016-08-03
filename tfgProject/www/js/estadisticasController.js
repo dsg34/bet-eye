@@ -19,7 +19,7 @@ angular.module('starter.controllers')
     console.log("eeeh");
 
     $scope.opciones = [
-      { title: 'Estadísticas económicas', redireccion: 'app.economia' },
-      { title: 'Estadísticas de acierto', redireccion: 'app.acierto' }
+      { title: 'Estadísticas económicas', redireccion: 'app.economia', icono: 'eur'},
+      { title: 'Estadísticas de acierto', redireccion: 'app.acierto', icono: 'percent' }
     ];
   });

@@ -50,6 +50,7 @@ angular.module('starter.controllers')
     $scope.mostrarPopup = false;
     $scope.mostrarPopup2 = false;
     $scope.mostrarPopup3 = false;
+    $scope.mostrarPopup4 = false;
     $scope.elegirImagen = true;
     $scope.mostrarImagen = true;
 
@@ -58,6 +59,9 @@ angular.module('starter.controllers')
     $scope.ticket = {};
 
     $scope.proveedorTicket = "Sin proveedor";
+
+    $scope.formato = [];
+    $scope.modeloSelect = [];
 
     var numLineas = 0;
 
@@ -90,13 +94,14 @@ angular.module('starter.controllers')
 
             for(var i=0; i<array.length; i++){
               if(array[i]!="") {
-                texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+                $scope.modeloSelect[numLineas]="des";
+                texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
                   '<option value="des">Línea desechable</option>' +
                   '<option value="evento">Evento</option>' +
                   '<option value="resultado">Pronóstico</option>' +
                   '<option value="tipo_resultado">Tipo/Pronóstico</option>' +
                   '<option value="cuota">Cuota</option>' +
-                  '<option value="hora_evento">Fecha/Hora evento</option>' +
+                    //'<option value="hora_evento">Fecha/Hora evento</option>' +
                   '<option value="importe">Importe apostado</option>' +
                   '<option value="premio">Premio</option>' +
                   '</select>';
@@ -105,6 +110,8 @@ angular.module('starter.controllers')
                   texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
                 else
                   texto+= "<div class='ocupaEspacio'></div>";
+
+                texto+= "<div class='formato' ng-if='modeloSelect["+numLineas+"]!=\"des\"'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
                 texto += '<input ng-blur="cambiarContenidoTicket('+i+')" type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
 
@@ -119,15 +126,11 @@ angular.module('starter.controllers')
     }
 
     $scope.sumarLinea = function(i){
-      console.log("Suma");
       var indice = parseInt(i);
       if(indice!=0) {
-        console.log("Alla vamos");
         var contenidoLinea = $scope.contenidoTicket[indice];
         $scope.contenidoTicket[indice - 1] = $scope.contenidoTicket[indice - 1]+ " " +contenidoLinea;
-        console.log($scope.contenidoTicket);
         $scope.contenidoTicket.splice(indice, 1);
-        console.log($scope.contenidoTicket);
         numLineas--;
         $scope.cambiarProveedor($scope.proveedorTicket);
       }
@@ -234,13 +237,14 @@ angular.module('starter.controllers')
        */
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Evento</option>' +
             '<option value="resultado">Pronóstico</option>' +
             '<option value="tipo_resultado">Tipo/Pronóstico</option>' +
             '<option value="cuota">Cuota</option>' +
-            '<option value="hora_evento">Fecha/Hora evento</option>' +
+              //'<option value="hora_evento">Fecha/Hora evento</option>' +
             '<option value="importe">Importe apostado</option>' +
             '<option value="premio">Premio</option>' +
             '</select>';
@@ -249,6 +253,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -267,7 +273,8 @@ angular.module('starter.controllers')
 
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="linea_reta">Línea de evento</option>' +
             '<option value="importe">Importe apostado</option>' +
@@ -278,6 +285,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -295,7 +304,8 @@ angular.module('starter.controllers')
 
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="linea_reta">Línea de evento</option>' +
             '<option value="importe">Importe apostado</option>' +
@@ -306,6 +316,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -323,7 +335,8 @@ angular.module('starter.controllers')
 
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Línea de evento</option>' +
             '<option value="tipo_resultado">Tipo de apuesta, Pronóstico y cuota</option>' +
@@ -335,6 +348,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -352,7 +367,8 @@ angular.module('starter.controllers')
 
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Línea de evento</option>' +
             '<option value="tipo_resultado_Sportium">Tipo de apuesta, Pronóstico y cuota</option>' +
@@ -364,6 +380,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -381,7 +399,8 @@ angular.module('starter.controllers')
 
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="eventoJuegging">Evento</option>' +
             '<option value="tipoJuegging">Tipo de apuesta</option>' +
@@ -395,6 +414,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -412,7 +433,8 @@ angular.module('starter.controllers')
 
       for(var i=0; i<array.length; i++){
         if(array[i]!="") {
-          texto += '<select id="selLinea'+numLineas+'" class="selLinea" name="sel'+numLineas+'">' +
+          $scope.modeloSelect[numLineas]="des";
+          texto += '<select id="selLinea'+numLineas+'" ng-class="inputSeleccionado('+numLineas+')" ng-change="dameFormato('+numLineas+')" ng-model="modeloSelect['+numLineas+']" class="selLinea" name="sel'+numLineas+'">' +
             '<option value="des">Línea desechable</option>' +
             '<option value="evento">Línea de evento</option>' +
             '<option value="tipo_resultado">Tipo de apuesta, Pronóstico y cuota</option>' +
@@ -424,6 +446,8 @@ angular.module('starter.controllers')
             texto+= "<div class='buttonAddLinea' ng-click='sumarLinea("+i+")'><i class='fa fa-arrow-up'></i> <i class='fa fa-plus'></i></div>";
           else
             texto+= "<div class='ocupaEspacio'></div>";
+
+          texto+= "<div class='formato'><b>Formato: </b>{{formato["+numLineas+"]}}</div>"
 
           texto += '<input type="text" id="linea' + numLineas + '" value="' + array[i] + '" /><br />';
           numLineas++;
@@ -440,6 +464,109 @@ angular.module('starter.controllers')
       $scope.$apply(function() {
         $scope.mostrarPopup = true;
       });
+    }
+
+    $scope.dameFormato = function(i){
+      var indice = parseInt(i);
+      var valor = document.getElementById("selLinea"+i).value;
+      var casa = $scope.proveedorTicket;
+
+      var devuelve = "";
+
+      switch(casa){
+        case "Sin proveedor": devuelve = $scope.formatoSinProveedor(valor); break;
+        case "Bwin": devuelve = $scope.formatoBwin(valor); break;
+        case "Codere": devuelve = $scope.formatoCodere(valor); break;
+        case "Juegging": devuelve = $scope.formatoJuegging(valor); break;
+        case "Luckia": devuelve = $scope.formatoLuckia(valor); break;
+        case "Reta": devuelve = $scope.formatoReta(valor); break;
+        case "Sportium": devuelve = $scope.formatoSportium(valor); break;
+        default: devuelve = $scope.formatoSinProveedor(valor); break;
+      }
+      $scope.formato[indice] = devuelve;
+
+    }
+
+    $scope.formatoSinProveedor = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "evento": devuelve="Equipo1 - Equipo2";break;
+        case "resultado": devuelve="Pronóstico";break;
+        case "tipo_resultado": devuelve="Tipo de apuesta @ Pronóstico (Cuota)";break;
+        case "cuota": devuelve="Cuota €";break;
+        case "importe": devuelve="Importe €";break;
+        case "premio": devuelve="Premio €";break;
+      }
+      return devuelve;
+    }
+
+    $scope.formatoBwin = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "evento": devuelve="Equipo1 - Equipo2";break;
+        case "resultado": devuelve="Pronóstico";break;
+        case "tipo_resultado": devuelve="Tipo de apuesta @ Pronóstico (Cuota)";break;
+        case "cuota": devuelve="Cuota €";break;
+        case "importe": devuelve="Importe €";break;
+        case "premio": devuelve="Premio €";break;
+      }
+      return devuelve;
+    }
+
+    $scope.formatoCodere = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "evento": devuelve="Equipo1 - Equipo2";break;
+        case "tipo_resultado": devuelve="Tipo de apuesta - Pronóstico - Cuota";break;
+        case "importe": devuelve="Importe €";break;
+        case "premio": devuelve="Premio €";break;
+      }
+      return devuelve;
+    }
+
+    $scope.formatoJuegging = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "eventoJuegging": devuelve="Evento: Equipo1 - Equipo2";break;
+        case "tipoJuegging": devuelve="Mod: Tipo de apuesta";break;
+        case "resultadoJuegging": devuelve="Pron: Pronóstico";break;
+        case "cuotaJuegging": devuelve="Cuota: Cuota";break;
+        case "importe": devuelve="Importe apuesta: Importe €";break;
+        case "premio": devuelve="Premio posible: Premio €";break;
+      }
+      return devuelve;
+    }
+
+    $scope.formatoLuckia = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "evento": devuelve="Equipo1 - Equipo2";break;
+        case "tipo_resultado": devuelve="Tipo de apuesta - Pronóstico (Cuota)";break;
+        case "importe": devuelve="Importe €";break;
+        case "premio": devuelve="Premio €";break;
+      }
+      return devuelve;
+    }
+
+    $scope.formatoReta = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "linea_reta": devuelve="Equipo1 - Equipo2 / Tipo de apuesta / Pronóstico / Cuota";break;
+        case "importe": devuelve="Importe €";break;
+        case "premio": devuelve="Premio €";break;
+      }
+      return devuelve;
+    }
+
+    $scope.formatoSportium = function(linea){
+      var devuelve = "";
+      switch (linea){
+        case "evento": devuelve="Equipo1 - Equipo2";break;
+        case "tipo_resultado_Sportium": devuelve="Tipo de apuesta - Pronóstico @ Cuota";break;
+        case "importe": devuelve="Importe €";break;
+        case "premio": devuelve="Premio €";break;
+      }
+      return devuelve;
     }
 
     $scope.devuelveFecha = function(){
@@ -881,6 +1008,17 @@ angular.module('starter.controllers')
         case "Juegging": $scope.cambiarTextoJuegging();break;
         case "Bwin": $scope.cambiarTextoBwin();break;
       }
+
+      $scope.formato = [];
+    }
+
+    $scope.inputSeleccionado = function(num){
+      var tipo = $scope.modeloSelect[parseInt(num)];
+      if(tipo!="des") {
+        return "eventoInfo"
+      }else {
+        return "";
+      }
     }
 
     $scope.cambiarContenidoTicket = function(indice){
@@ -890,4 +1028,12 @@ angular.module('starter.controllers')
     document.getElementById("fichero").onchange = function(){
       readURL(this);
     };
+
+    $scope.mostrarInfoEscanear = function(){
+      if($scope.mostrarPopup4==false)
+        $scope.mostrarPopup4=true;
+      else
+        $scope.mostrarPopup4=false;
+    }
+
   });
